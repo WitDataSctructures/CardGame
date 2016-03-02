@@ -1,15 +1,35 @@
 package uno;
 
-public class Card {
+public class Card implements Comparable<Card>{
 	
 	public static enum Color {
-		RED, YELLOW, GREEN, BLUE, WILD
-	}
+		RED(0), YELLOW(1), GREEN(2), BLUE(3), WILD(4);
+		
+		private final int comparisonValue;
+		
+		private Color(int val){
+			comparisonValue = val;
+		}
+		
+		public int getComparisonValue(){
+			return comparisonValue;
+		}
+	};
 	
 	public static enum Symbol {
-		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,
-		NINE, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
-	}
+		ZERO(0), ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8),
+		NINE(9), SKIP(10), REVERSE(11), DRAW_TWO(12), WILD(13), WILD_DRAW_FOUR(14);
+		
+		private final int comparisonValue;
+		
+		private Symbol(int val){
+			comparisonValue = val;
+		}
+		
+		public int getComparisonValue(){
+			return comparisonValue;
+		}
+	};
 	
 	private Color cardColor;
 	private Symbol cardSymbol;
@@ -99,5 +119,18 @@ public class Card {
 			break;
 		}
 		return output;
+	}
+	
+	@Override
+	public int compareTo(Card otherCard){
+		if (this.cardColor == otherCard.getColor() &&
+				this.cardSymbol == otherCard.getSymbol()){
+			return 0;
+		}else if (this.cardSymbol.getComparisonValue() < otherCard.cardSymbol.getComparisonValue() ||
+				this.cardColor.getComparisonValue() < otherCard.cardColor.getComparisonValue()){
+			return -1;
+		}else{
+			return 1;
+		}
 	}
 }
