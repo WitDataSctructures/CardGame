@@ -9,7 +9,6 @@ package adt;
 
 public class Pile {
 	private Card top;
-	private Card bottom;
 
 	public void addToTop(Card card) {
 		if (top != null) {
