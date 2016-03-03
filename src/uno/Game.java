@@ -63,7 +63,9 @@ public class Game {
 		// Create/shuffle pickup pile
 		discardPile = new Pile();
 		pickupPile = new Pile();
+
 		// Dish out cards
+
 	}
 
 	private void start() {

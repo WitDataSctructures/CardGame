@@ -11,12 +11,23 @@ public class Pile {
 	public void addToTop(Card card) {
 		if (top == null) {
 			top = card;
+			top.setPrevious(bottom);
+		} else {
+			top.setPrevious(card);
+			card.setNext(top);
+			card.setPrevious(bottom);
+			top = card;
 		}
-		card.setNext(card);
 	}
 
 	public void addToBottom(Card card) {
 		if (bottom == null) {
+			bottom = card;
+			bottom.setNext(top);
+		} else {
+			bottom.setNext(card);
+			card.setNext(top);
+			card.setPrevious(bottom);
 			bottom = card;
 		}
 	}
