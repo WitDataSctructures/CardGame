@@ -7,13 +7,16 @@ public class Game {
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.setup();
+		game.start();
 	}
 
 	private final static int MIN_PLAYERS = 2, MAX_PLAYERS = 10;
 
 	private int playerCount = 0;
 	private Player[] players;
-	Scanner console;
+	private Scanner console;
+	private Pile discardPile;
+	private Pile pickupPile;
 
 	public Game() {
 		console = new Scanner(System.in);
@@ -54,6 +57,21 @@ public class Game {
 				System.out.print(" and ");
 			} else if (i != playerCount - 1) {
 				System.out.print(", ");
+			}
+		}
+
+		// Create/shuffle pickup pile
+		discardPile = new Pile();
+		pickupPile = new Pile();
+		// Dish out cards
+	}
+
+	private void start() {
+		// While the game isn't finished, keep going around the table
+		boolean finished = false;
+		while (!finished) {
+			for (int i = 0; i < playerCount; i++) {
+
 			}
 		}
 	}
