@@ -36,4 +36,8 @@ public class Pile {
 	public Card peekFromBottom() {
 		return null;
 	}
+
+	public int getSize() {
+		return 0;
+	}
 }
