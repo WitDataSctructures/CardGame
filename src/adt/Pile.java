@@ -69,9 +69,6 @@ public class Pile {
 			s += ", ";
 			current = current.getNext();
 		}
-		if (bottom != null) {
-			s += ", " + bottom;
-		}
 		return s + " }";
 	}
 }
