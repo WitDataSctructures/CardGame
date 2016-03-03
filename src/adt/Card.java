@@ -133,6 +133,9 @@ public class Card implements Comparable<Card> {
 	 */
 	@Override
 	public String toString() {
+		if (cardColor == Color.WILD){
+			return (cardSymbol.toString().toLowerCase());
+		}
 		return (cardColor + " " + cardSymbol).toLowerCase();
 	}
 
