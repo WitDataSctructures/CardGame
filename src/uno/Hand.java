@@ -1,6 +1,8 @@
 package uno;
 import java.util.ArrayList;
 
+import adt.Card;
+
 public class Hand {
 	
 	private ArrayList<Card> playerHand;

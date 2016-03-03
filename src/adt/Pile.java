@@ -1,4 +1,4 @@
-package uno;
+package adt;
 
 public class Pile {
 	private Card top;

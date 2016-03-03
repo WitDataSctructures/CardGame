@@ -1,4 +1,4 @@
-package uno;
+package adt;
 
 public class Card implements Comparable<Card> {
 	/**
