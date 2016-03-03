@@ -4,51 +4,51 @@ public class Pile {
 	private Card top;
 	private Card bottom;
 
-	public Pile() {
-
-	}
-
 	public void addToTop(Card card) {
-		if (top == null) {
-			top = card;
-			top.setPrevious(bottom);
-		} else {
+		if (top != null) {
+			card.setNext(top);
 			top.setPrevious(card);
-			card.setNext(top);
-			card.setPrevious(bottom);
-			top = card;
 		}
-	}
-
-	public void addToBottom(Card card) {
-		if (bottom == null) {
-			bottom = card;
-			bottom.setNext(top);
-		} else {
-			bottom.setNext(card);
-			card.setNext(top);
-			card.setPrevious(bottom);
-			bottom = card;
-		}
+		top = card;
 	}
 
 	public Card drawFromTop() {
-		return null;
-	}
-
-	public Card drawFromBottom() {
-		return null;
+		Card card = top;
+		if (top != null) {
+			top = top.getNext();
+		}
+		return card;
 	}
 
 	public Card peekFromTop() {
-		return null;
-	}
-
-	public Card peekFromBottom() {
-		return null;
+		return top;
 	}
 
 	public int getSize() {
-		return 0;
+		int size = 0;
+		Card current = top;
+		while (current != null) {
+			size++;
+			current = current.getNext();
+		}
+		return size;
+	}
+
+	@Override
+	public String toString() {
+		String s = "{ ";
+		Card current = top;
+		while (current != null) {
+			s += current;
+			if (current.getNext() == null) {
+				break;
+			}
+			s += ", ";
+			current = current.getNext();
+		}
+		if (bottom != null) {
+			s += ", " + bottom;
+		}
+		return s + " }";
 	}
 }

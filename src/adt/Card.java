@@ -53,15 +53,13 @@ public class Card implements Comparable<Card> {
 	 * @param Symbol
 	 *            on the card
 	 */
-	public Card(Color c, Symbol s, Card next, Card previous) {
+	public Card(Color c, Symbol s) {
 		if (s == Symbol.WILD || s == Symbol.WILD_DRAW_FOUR) {
 			cardColor = Color.WILD;
 		} else {
 			cardColor = c;
 		}
 		cardSymbol = s;
-		this.next = next;
-		this.previous = previous;
 	}
 
 	/**
