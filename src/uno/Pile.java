@@ -4,7 +4,7 @@ public class Pile {
 	private Card top;
 	private Card bottom;
 
-	private Pile() {
+	public Pile() {
 
 	}
 
