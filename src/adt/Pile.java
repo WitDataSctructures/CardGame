@@ -31,16 +31,16 @@ public class Pile {
 		while (current != null) {
 			if (current.compareTo(card) == 0) {
 				if (current.getPrevious() != null) {
-					current.getPrevious().setNext(card);
+					current.getPrevious().setNext(current.getNext());
 				}
 				if (current.getNext() != null) {
-					current.getNext().setPrevious(card);
+					current.getNext().setPrevious(current.getPrevious());
 				}
-				card.setNext(current.getNext());
-				break;
+				return current;
 			}
+			current = current.getNext();
 		}
-		return current;
+		return null;
 	}
 
 	public Card peekFromTop() {
