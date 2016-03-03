@@ -1,3 +1,10 @@
+/**
+ * Pile ADT to represent a pile of cards for the game of uno
+ * 
+ * @author Jake Mathews (mathewsj2@wit.edu)
+ *
+*/
+
 package adt;
 
 public class Pile {
@@ -18,6 +25,23 @@ public class Pile {
 			top = top.getNext();
 		}
 		return card;
+	}
+
+	public Card remove(Card card) {
+		Card current = top;
+		while (current != null) {
+			if (current.compareTo(card) == 0) {
+				if (current.getPrevious() != null) {
+					current.getPrevious().setNext(card);
+				}
+				if (current.getNext() != null) {
+					current.getNext().setPrevious(card);
+				}
+				card.setNext(current.getNext());
+				break;
+			}
+		}
+		return current;
 	}
 
 	public Card peekFromTop() {
