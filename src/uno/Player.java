@@ -3,6 +3,7 @@ package uno;
 public class Player {
 
 	private String name;
+	private Hand playerHand;
 
 	public Player(String name) {
 		this.name = name;
