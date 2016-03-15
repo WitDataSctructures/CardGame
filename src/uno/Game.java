@@ -1,12 +1,12 @@
 package uno;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 import adt.Card;
 import adt.Card.Color;
 import adt.Card.Symbol;
+import adt.Pile;
 
 public class Game {
 
@@ -22,6 +22,7 @@ public class Game {
 	private int playerCount = 0;
 	private ArrayList<Player> players;
 	private Scanner console;
+
 	private Deck discardPile;
 	private Deck pickupPile;
 
@@ -73,8 +74,6 @@ public class Game {
 	private void start() {
 		// While the game isn't finished, keep going around the table
 		boolean finished = false;
-		// Start with a random player each time
-		currentPlayer = players.get(new Random().nextInt(playerCount - 1));
 		while (!finished) {
 
 		}
