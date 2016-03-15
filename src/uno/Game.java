@@ -7,8 +7,11 @@ import adt.Card;
 import adt.Card.Color;
 import adt.Card.Symbol;
 import adt.Pile;
+import uno.server.Server;
 
 public class Game {
+
+	private Server server;
 
 	public static void main(String[] args) {
 		Game game = new Game();
