@@ -16,4 +16,16 @@ public abstract class InputManager {
 	 * @return whether the user pressed the Uno button
 	 */
 	public abstract boolean getUno();
+	
+	/**
+	 * Get the IP of the server the user wants to connect to
+	 * @return the IP address of the server
+	 */
+	public abstract String getHostIP();
+	
+	/**
+	 * returns whether the user wants to be the server
+	 * @return true if hosting a server, false if not
+	 */
+	public abstract boolean isServer();
 }
