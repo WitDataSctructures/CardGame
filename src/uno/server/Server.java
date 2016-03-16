@@ -13,8 +13,8 @@ public class Server {
 	public static void main(String[] args) {
 		try {
 			Server server;
-			if (args.length == 2) {
-				server = new Server(Integer.parseInt(args[1]));
+			if (args.length == 1) {
+				server = new Server(Integer.parseInt(args[0]));
 			} else {
 				server = new Server();
 			}
@@ -56,15 +56,18 @@ public class Server {
 
 	public void listen() {
 		try {
-			System.out.println("Listening on: " + getServerAddress() + ":" + getServerPort());
+			System.out.println("\nListening on: " + getServerAddress() + ":" + getServerPort());
 			Socket client = serverSocket.accept();
+			System.out.println("Client connected: " + client.getLocalAddress());
 			DataInputStream in = new DataInputStream(client.getInputStream());
 			System.out.println(in.readUTF());
 			DataOutputStream out = new DataOutputStream(client.getOutputStream());
 			out.writeUTF("Thank you for connecting to " + serverSocket.getLocalSocketAddress() + "\nGoodbye!");
-			serverSocket.close();
+			client.close();
 		} catch (IOException e) {
+			System.out.println("Connection Closed");
 			e.printStackTrace();
+
 		}
 	}
 }
