@@ -129,7 +129,19 @@ public class ConsoleInput extends InputManager {
 	 */
 	@Override
 	public boolean getUno() {
-		// TODO Auto-generated method stub
+		if (console.hasNext("uno")){
+			return true;
+		}else if (console.hasNext("uno!")){
+			return true;
+		}else if (console.hasNext("Uno")){
+			return true;
+		}else if (console.hasNext("Uno!")){
+			return true;
+		}else if (console.hasNext("UNO")){
+			return true;
+		}else if (console.hasNext("UNO!")){
+			return true;
+		}
 		return false;
 	}
 	
