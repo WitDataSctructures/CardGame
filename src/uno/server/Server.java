@@ -12,17 +12,22 @@ public class Server {
 
 	public static void main(String[] args) {
 		try {
-			Server server = new Server();
+			Server server;
+			if (args.length == 2) {
+				server = new Server(Integer.parseInt(args[1]));
+			} else {
+				server = new Server();
+			}
 			while (true) {
 				server.listen();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Server crashed! :(");
 			e.printStackTrace();
 		}
 	}
 
-	private final int PORT = 9090;
+	private final int DEFAULT_PORT = 9090;
 
 	private String name;
 	private ServerSocket serverSocket;
@@ -33,7 +38,12 @@ public class Server {
 
 	public Server() throws IOException {
 		name = InetAddress.getLocalHost().getHostName();
-		serverSocket = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
+		serverSocket = new ServerSocket(DEFAULT_PORT, 50, InetAddress.getLocalHost());
+	}
+
+	public Server(int port) throws IOException {
+		name = InetAddress.getLocalHost().getHostName();
+		serverSocket = new ServerSocket(port, 50, InetAddress.getLocalHost());
 	}
 
 	public String getServerAddress() throws UnknownHostException {
