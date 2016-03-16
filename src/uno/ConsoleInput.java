@@ -20,13 +20,19 @@ public class ConsoleInput extends InputManager {
 	 */
 	@Override
 	public Card getCard() {
-		String input = null, color, symbol;
+		String input = null, color = null, symbol = null;
 		Color cardColor = null;
 		Symbol cardSymbol = null;
 		while (input == null) {
 			input = console.nextLine().trim().toLowerCase();
-			color = input.split(" ")[0];
-			symbol = input.split(" ")[1];
+			try{
+				color = input.split(" ")[0];
+				symbol = input.split(" ")[1];
+			} catch (ArrayIndexOutOfBoundsException e){
+				System.out.println("Invalid Input");
+				input = null;
+			}
+		}
 			switch(color){
 			case "red":
 				cardColor = Color.RED;
@@ -119,7 +125,6 @@ public class ConsoleInput extends InputManager {
 					cardSymbol = Symbol.WILD;
 				}
 			}
-		}
 		return new Card(cardColor, cardSymbol);
 	}
 	
