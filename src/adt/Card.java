@@ -1,6 +1,13 @@
 package adt;
 
-public class Card implements Comparable<Card> {
+import java.io.Serializable;
+
+public class Card implements Serializable, Comparable<Card> {
+	/**
+	 * generated UID
+	 */
+	private static final long serialVersionUID = -9003507646233425521L;
+
 	/**
 	 * Enum for Color of an UNO card with values for comparison
 	 * 
