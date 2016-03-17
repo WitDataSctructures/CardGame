@@ -7,10 +7,12 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import adt.Card;
 import uno.ConsoleInput;
 import uno.Deck;
 import uno.InputManager;
 import uno.Player;
+import uno.PlayerStats;
 import uno.server.ClientPacket;
 import uno.server.Server;
 import uno_GUI.UnoTableGUI;
@@ -121,7 +123,25 @@ public class Client {
 							break;
 						case "turn":
 							Deck discardPile = packet.getDiscardPile();
-							
+							if(packet.isDiscardActive()) {
+								if(discardPile.peekFromTop().getSymbol().equals(Card.Symbol.DRAW_TWO)) {
+									player.addToHand(drawPile.drawFromTop());
+									player.addToHand(drawPile.drawFromTop());
+									packet.setMessage("success");
+									packet.setPickupPile(drawPile);
+									out.writeObject(packet);
+									break;
+								} else if(discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
+									player.addToHand(drawPile.drawFromTop());
+									player.addToHand(drawPile.drawFromTop());
+									player.addToHand(drawPile.drawFromTop());
+									player.addToHand(drawPile.drawFromTop());
+									packet.setMessage("success");
+									packet.setPickupPile(drawPile);
+									out.writeObject(packet);
+									break;
+								}
+							}
 							
 							break;
 						default:
