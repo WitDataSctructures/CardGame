@@ -11,7 +11,7 @@ import uno.ConsoleInput;
 import uno.Deck;
 
 public class Server {
-
+	
 	public static void main(String[] args) {
 		try {
 			Server server;
@@ -25,32 +25,32 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-
+	
 	ConsoleInput console;
-
+	
 	private final static int DEFAULT_PORT = 9090;
 	private final static int MAX_CONNECTIONS = 10;
 	private final static int MIN_CONNECTIONS = 2;
-	public static final String REGEX = "|";
-
+	public static final String REGEX = " ";
+	
 	private String name;
 	private ServerSocket connectionSocket;
-
+	
 	Deck pickup;
 	Deck discard;
-
+	
 	boolean started = false;
-
+	
 	private HashMap<String, ClientThread> clients;
-
+	
 	public enum USER {
 		SERVER, USER
 	}
-
+	
 	public Server() throws IOException {
 		this(DEFAULT_PORT);
 	}
-
+	
 	public Server(int port) throws IOException {
 		name = InetAddress.getLocalHost().getHostName();
 		connectionSocket = new ServerSocket(port, 50, InetAddress.getLocalHost());
@@ -58,21 +58,21 @@ public class Server {
 		clients = new HashMap<String, ClientThread>();
 		listen();
 	}
-
+	
 	public String getServerAddress() throws UnknownHostException {
 		return InetAddress.getLocalHost().getHostAddress();
 	}
-
+	
 	public int getServerPort() throws UnknownHostException {
 		return connectionSocket.getLocalPort();
 	}
-
+	
 	public void listen() {
 		while (true) {
 			try {
 				System.out.println("\nListening on: " + getServerAddress() + ":" + getServerPort());
 				Socket client = connectionSocket.accept();
-				System.out.println("Player connected: " + client.getLocalAddress());
+				System.out.println("Player connected: " + client.getLocalSocketAddress());
 				new ClientThread(client, this);
 				if (clients.size() >= MAX_CONNECTIONS) {
 					System.out.println("No more players can connect");
@@ -86,12 +86,12 @@ public class Server {
 			} catch (IOException e) {
 				System.out.println("Connection Closed");
 				e.printStackTrace();
-
+				
 			}
 		}
 		startGame();
 	}
-
+	
 	/**
 	 * Starts a game of UNO. Should only be called if the <i>listen()</i> method has already been called
 	 */
@@ -102,14 +102,14 @@ public class Server {
 		discard = new Deck();
 		for (int i = 0; i < 7; i++) {
 			for (ClientThread client : clients.values()) {
-
+			
 			}
 		}
 		while (true) {
-
+		
 		}
 	}
-
+	
 	/**
 	 * Adds a client to the server's list of clients. Can only be done during the setup portion of the game.
 	 * 
@@ -123,7 +123,7 @@ public class Server {
 		System.out.println("Client UUID [" + UUID + "]");
 		return !started && (clients.putIfAbsent(UUID, client) == null);
 	}
-
+	
 	/**
 	 * Returns the server's socket
 	 * 

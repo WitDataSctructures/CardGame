@@ -28,8 +28,9 @@ public class ClientThread {
 		
 		DataInputStream in = new DataInputStream(client.getInputStream());
 		DataOutputStream out = new DataOutputStream(client.getOutputStream());
-		String[] input = in.readUTF().split(Server.REGEX);
-		if (input[0].equals("N") && server.addClient(input[1], this)) { // Client is asking to be added and was successfully added
+		String input = in.readUTF();
+		String[] data = input.split(Server.REGEX);
+		if (data[0].equals("N") && server.addClient(data[1], this)) { // Client is asking to be added and was successfully added
 			out.writeUTF("success");
 		} else {
 			out.writeUTF("Failed to joing game :(");
