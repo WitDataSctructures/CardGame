@@ -104,26 +104,6 @@ public class Client {
 							packet.setPickupPile(drawPile);
 							out.writeObject(packet); // Return the deck with one less card and new message
 							break;
-						case "draw_two":
-							//User draws two cards and passes their turn							
-							// System.out.println("Drawn " + packet.getPickupPile().peekFromTop());
-							player.addToHand(drawPile.drawFromTop());
-							player.addToHand(drawPile.drawFromTop());
-							packet.setMessage("success");
-							packet.setPickupPile(drawPile);
-							out.writeObject(packet);
-							break;
-						case "draw_four":
-							//User draws four cards and passes their turn
-							// System.out.println("Drawn " + packet.getPickupPile().peekFromTop());
-							player.addToHand(drawPile.drawFromTop());
-							player.addToHand(drawPile.drawFromTop());
-							player.addToHand(drawPile.drawFromTop());
-							player.addToHand(drawPile.drawFromTop());
-							packet.setMessage("success");
-							packet.setPickupPile(drawPile);
-							out.writeObject(packet);
-							break;
 						case "turn":
 							Deck discardPile = packet.getDiscardPile();
 							if(packet.isDiscardActive()) {
