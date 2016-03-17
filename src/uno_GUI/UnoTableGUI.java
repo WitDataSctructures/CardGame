@@ -44,6 +44,9 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	
 	
 	String discardString = "";
+
+
+	private ClientPacket packet;
 	
 	
 	
@@ -107,73 +110,12 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	}
 	
 	public static void main(String[] args){
-		new UnoTableGUI();
+//		new UnoTableGUI();
 	}
 	
 	public void getPlayerInfo(){
-		
-		//player.name + ":  " + player.getSize + " cards";
-		playerNames[0] = "Name of P1: " + "3 cards";
-		playerNames[1] = "Player2";
 		players.setBounds(0,0,150,200);
 		players.setBackground(Color.LIGHT_GRAY);
-		
-		switch(playerCount){
-		case 3:
-			playerNames[2] = "Player3";
-			break;
-		case 4:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			break;
-		case 5:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			playerNames[4] = "Player5";
-			break;
-		case 6:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			playerNames[4] = "Player5";
-			playerNames[5] = "Player6";
-			break;
-		case 7:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			playerNames[4] = "Player5";
-			playerNames[5] = "Player6";
-			playerNames[6] = "Player7";
-			break;
-		case 8:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			playerNames[4] = "Player5";
-			playerNames[5] = "Player6";
-			playerNames[6] = "Player7";
-			playerNames[7] = "Player8";
-			break;
-		case 9:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			playerNames[4] = "Player5";
-			playerNames[5] = "Player6";
-			playerNames[6] = "Player7";
-			playerNames[7] = "Player8";
-			playerNames[8] = "Player9";
-			break;
-		case 10:
-			playerNames[2] = "Player3";
-			playerNames[3] = "Player4";
-			playerNames[4] = "Player5";
-			playerNames[5] = "Player6";
-			playerNames[6] = "Player7";
-			playerNames[7] = "Player8";
-			playerNames[8] = "Player9";
-			playerNames[9] = "Player10";
-			break;
-		default:
-			break;	
-		}
 	}
 
 	
@@ -183,10 +125,10 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		if(event.getSource() == draw){
 			
 			//Draw a card from the top of the draw pile for that player
-			Card drawnCard = new Card(Card.Color.BLUE, Card.Symbol.NINE);
+			Card drawnCard = packet.getPickupPile().drawFromTop();
 			listModel.addElement(drawnCard);
 			
-			//For Testing...
+			/*For Testing...
 			
 			Card drawnCard2 = new Card(Card.Color.BLUE, Card.Symbol.EIGHT);
 			Card drawnCard3 = new Card(Card.Color.RED, Card.Symbol.FOUR);
@@ -196,7 +138,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 			Card drawnCard4 = new Card(Card.Color.WILD, Card.Symbol.WILD);
 			listModel.addElement(drawnCard4);
 			
-			//
+			*/
 			
 		}
 		if(event.getSource() == callUno){
@@ -283,6 +225,15 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		default:
 			return null;
 		}
+	}
+
+	public void setPacket(ClientPacket packet) {
+		this.packet = packet;
+		PlayerStats stats = packet.getStats();
+		for(int i = 0; i < stats.getPlayers().length;i++) {
+			playerNames[i] = stats.getPlayers()[i];
+		}
+		players.setListData(playerNames);
 	}
 	
 	

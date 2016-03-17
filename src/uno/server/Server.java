@@ -105,7 +105,7 @@ public class Server {
 		for (int i = 0; i < 7; i++) {
 			for (ClientThread client : clients.values()) {
 				// System.out.println("TopCard(3) = " + pickup.peekFromTop());
-				ClientPacket packet = new ClientPacket("dish_card", pickup, discard, null);
+				ClientPacket packet = new ClientPacket("dish_card", pickup, discard, null,false);
 				ClientPacket returnedPacket = client.sendPacket(packet);
 				System.out.println("sending");
 				if (returnedPacket.getMessage().equals("success")) {

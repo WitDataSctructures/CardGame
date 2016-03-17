@@ -27,20 +27,20 @@ public class Client {
 	}
 
 	Socket server;
-	InputManager in; // TODO: Change to InputManager
+	InputManager input; // TODO: Change to InputManager
 	Player player;
 	// String playerName;
 
 	public Client(String name) {
 		// Get input
-		in = new UnoTableGUI();
+		input = new UnoTableGUI();
 		player = new Player(name);
 		while (server == null){
 			System.out.print("Please enter server address: ");
 			// Connect to a server
 			String serverIP = ":";
 			try{
-				serverIP = in.getHostIP();
+				serverIP = input.getHostIP();
 			} catch (NullPointerException e){
 				System.exit(0);
 			}
@@ -59,6 +59,7 @@ public class Client {
 			}
 		}
 		
+		
 		if (server != null) { // If everything is all set
 			try {
 				run();
@@ -68,6 +69,8 @@ public class Client {
 				e.printStackTrace();
 			}
 		}
+		
+		
 	}
 
 	private void run() throws IOException, ClassNotFoundException {
@@ -141,6 +144,8 @@ public class Client {
 									out.writeObject(packet);
 									break;
 								}
+								
+								((UnoTableGUI) input).setPacket(packet);
 							}
 							
 							break;
