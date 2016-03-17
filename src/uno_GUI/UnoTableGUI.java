@@ -2,7 +2,6 @@ package uno_GUI;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 
 import java.awt.event.*;
 
@@ -11,20 +10,26 @@ import adt.*;
 import adt.Card;
 import uno.server.*;
 
-public class UnoTableGUI extends JFrame implements ActionListener{
+public class UnoTableGUI extends JFrame implements InputManager{
+	
+	
+	
+	
+	
 	
 	private static final long serialVersionUID = 1L;
 
+	
+	//Variables
 	Container unoGame;
 	
-	JPanel board = new JPanel();
 	JLabel emptyLabel = new JLabel();
 	
 	JButton draw = new JButton("Draw a Card");
 	JButton callUno = new JButton("Call Uno!");
 	JButton select = new JButton("Play Card");
 		
-	int playerCount = 10;
+	int playerCount = 2;
 	String[] playerNames = {"Player1", "Player2", " ", " ", " ", " ", " ", " ", " ", " "};
 	JList<String> players = new JList<String>(playerNames);
 	
@@ -35,8 +40,18 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 	JPanel discard = new JPanel();
 	JLabel discardText = new JLabel();
 	Card discardCard = null;
+	Pile discardPile;
+	
 	
 	String discardString = "";
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -53,11 +68,7 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setFocusable(true);
-		
-		board.setBackground(Color.GREEN);
-		players.setBounds(0,0,150,200);
-		players.setBackground(Color.WHITE);
-		
+			
 		
 		//Set bounds for Buttons
 		draw.setBounds(270, 125, 150, 200);
@@ -65,9 +76,9 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 		select.setBounds(700, 250, 120, 60);
 		
 		//Button Listeners
-		draw.addActionListener(this);
-		callUno.addActionListener(this);
-		select.addActionListener(this);
+		draw.addActionListener((ActionListener) this);
+		callUno.addActionListener((ActionListener) this);
+		select.addActionListener((ActionListener) this);
 		
 		
 		
@@ -77,7 +88,7 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 		listModel = new DefaultListModel<Card>();
 		cardsInHand = new JList<Card>(listModel);
 		cardsInHand.setBounds(850,0,145,310);
-		cardsInHand.setBackground(Color.GRAY);
+		cardsInHand.setBackground(Color.LIGHT_GRAY);
 		
 		discard.setBounds(500, 125, 150, 200);
 		discard.setBackground(Color.WHITE);
@@ -104,7 +115,7 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 		playerNames[0] = "Name of P1: " + "3 cards";
 		playerNames[1] = "Player2";
 		players.setBounds(0,0,150,200);
-		players.setBackground(Color.WHITE);
+		players.setBackground(Color.LIGHT_GRAY);
 		
 		switch(playerCount){
 		case 3:
@@ -165,30 +176,38 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 	}
 
 	
-	@Override
+
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == draw){
-			//Draw a card for that player
 			
+			//Draw a card from the top of the draw pile for that player
 			Card drawnCard = new Card(Card.Color.BLUE, Card.Symbol.NINE);
+			listModel.addElement(drawnCard);
+			
+			//For Testing...
+			
 			Card drawnCard2 = new Card(Card.Color.BLUE, Card.Symbol.EIGHT);
 			Card drawnCard3 = new Card(Card.Color.RED, Card.Symbol.FOUR);
-			listModel.addElement(drawnCard);
 			listModel.addElement(drawnCard2);
 			listModel.addElement(drawnCard3);
+			
+			Card drawnCard4 = new Card(Card.Color.WILD, Card.Symbol.WILD);
+			listModel.addElement(drawnCard4);
+			
+			//
 			
 		}
 		if(event.getSource() == callUno){
 			//Call/Check Uno event
 			
+			//whenever there is a new turn set a boolean to false.
 			
 		}
 		if(event.getSource() == select){
+			
 			//Select card from list and remove it, and add it to the discard pile iff it is compatable with the
 			//top card of the discard pile.
-			
-			
 			selectIndex = cardsInHand.getSelectedIndex();
 			if(selectIndex != -1 && (discardCard == null || listModel.getElementAt(selectIndex).compareTo(discardCard) == 1 || 
 					listModel.getElementAt(selectIndex).compareTo(discardCard) == 0)){
@@ -198,9 +217,53 @@ public class UnoTableGUI extends JFrame implements ActionListener{
 				listModel.remove(selectIndex);
 				selectIndex = -1;
 				discardText.setText(discardString);	
+				
+				//discardPile.addToTop(listModel.getElementAt(selectIndex+1));
+				//End turn
 			}
 		}
 		
+	}
+
+	@Override
+	public Card getCard() {
+		// TODO Auto-generated method stub
+		return discardCard;
+	}
+
+	@Override
+	public boolean getUno() {
+		// TODO Auto-generated method stub
+		//Create a boolean for when the uno button is pressed
+		return false;
+	}
+
+	@Override
+	public String getHostIP() {
+		// TODO Auto-generated method stub
+		
+		//Returns string which user types into the IP textbox
+		return null;
+	}
+
+	@Override
+	public boolean isServer() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean getTrueFalse() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public adt.Card.Color getDesiredColor() {
+		// TODO Auto-generated method stub
+		
+		//Return Color for what the user wants their wild card to change the color to.
+		return null;
 	}
 	
 	
