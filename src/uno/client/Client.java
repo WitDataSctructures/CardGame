@@ -30,6 +30,7 @@ public class Client {
 	InputManager input; // TODO: Change to InputManager
 	Player player;
 	// String playerName;
+	private ClientPacket packet;
 
 	public Client(String name) {
 		// Get input
@@ -125,7 +126,8 @@ public class Client {
 									break;
 								}
 								
-								((UnoTableGUI) input).setPacket(packet);
+								this.packet = packet;
+								((UnoTableGUI) input).setClient(this);
 							}
 							
 							break;
@@ -145,5 +147,9 @@ public class Client {
 				System.out.println("Your cards:\n\t" + player.getHandString());
 			}
 		}
+	}
+
+	public ClientPacket getPacket() {
+		return packet;
 	}
 }

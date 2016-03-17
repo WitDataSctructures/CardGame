@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import uno.*;
+import uno.client.Client;
 import adt.*;
 import adt.Card;
 import sun.awt.resources.awt;
@@ -47,6 +48,9 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 
 
 	private ClientPacket packet;
+
+
+	private Client client;
 	
 	
 	
@@ -227,8 +231,9 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		}
 	}
 
-	public void setPacket(ClientPacket packet) {
-		this.packet = packet;
+	public void setClient(Client client) {
+		this.client = client;
+		packet = client.getPacket();
 		PlayerStats stats = packet.getStats();
 		for(int i = 0; i < stats.getPlayers().length;i++) {
 			playerNames[i] = stats.getPlayers()[i];
