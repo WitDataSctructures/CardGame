@@ -81,11 +81,11 @@ public class Client {
 					switch (message) {
 						case "dish_card":
 							// Server is trying to dish us out one card
-							Deck pickupPile = packet.getPickupPile();
+							Deck drawPile = packet.getPickupPile();
 							// System.out.println("Drawn " + packet.getPickupPile().peekFromTop());
-							player.addToHand(pickupPile.drawFromTop());
+							player.addToHand(drawPile.drawFromTop());
 							packet.setMessage("success");
-							packet.setPickupPile(pickupPile);
+							packet.setPickupPile(drawPile);
 							out.writeObject(packet); // Return the deck with one less card and new message
 							break;
 						default:

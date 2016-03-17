@@ -7,6 +7,11 @@ import adt.Pile;
 
 public class Hand extends Pile {
 
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = 5690236836679402432L;
+
 	// Default Constructor
 	public Hand() {
 	}
