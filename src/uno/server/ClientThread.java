@@ -35,7 +35,8 @@ public class ClientThread {
 		} else {
 			out.writeUTF("Failed to joing game :(");
 		}
-
+		in.close();
+		out.close();
 	}
 
 	public ClientPacket sendPacket(ClientPacket packet) {

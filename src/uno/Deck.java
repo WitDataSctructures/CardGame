@@ -1,5 +1,6 @@
 package uno;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import adt.Card;
@@ -7,8 +8,13 @@ import adt.Card.Color;
 import adt.Card.Symbol;
 import adt.Pile;
 
-public class Deck extends Pile {
-	
+public class Deck extends Pile implements Serializable {
+
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = -7864976685987399548L;
+
 	public static Deck generateCards() {
 		Deck pile = new Deck();
 		for (Symbol symbol : Symbol.values()) {
@@ -27,7 +33,7 @@ public class Deck extends Pile {
 		}
 		return pile;
 	}
-	
+
 	/**
 	 * removes cards from the top of the deck and places them in a random spot in the deck.
 	 */
@@ -44,6 +50,6 @@ public class Deck extends Pile {
 			placeAfter.setNext(currentCard);
 			currentCard.setNext(placeBefore);
 		}
-		
+
 	}
 }

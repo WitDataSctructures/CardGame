@@ -1,6 +1,13 @@
 package uno;
 
-public class PlayerStats {
+import java.io.Serializable;
+
+public class PlayerStats implements Serializable {
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = -8436295657678335081L;
+
 	@Override
 	public String toString() {
 		// String stats = "";
