@@ -69,6 +69,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setFocusable(true);
+		addWindowListener(new WindowDestroyer());
 			
 		
 		//Set bounds for Buttons
