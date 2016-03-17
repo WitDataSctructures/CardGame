@@ -54,11 +54,7 @@ public class Card implements Comparable<Card> {
 	 *            on the card
 	 */
 	public Card(Color c, Symbol s) {
-		if (s == Symbol.WILD || s == Symbol.WILD_DRAW_FOUR) {
-			cardColor = Color.WILD;
-		} else {
-			cardColor = c;
-		}
+		cardColor = c;
 		cardSymbol = s;
 	}
 
