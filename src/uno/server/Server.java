@@ -72,13 +72,13 @@ public class Server {
 			try {
 				System.out.println("\nListening on: " + getServerAddress() + ":" + getServerPort());
 				Socket client = connectionSocket.accept();
-				System.out.println("Player connected: " + client.getLocalSocketAddress());
+				System.out.println("Player connected: " + client.getRemoteSocketAddress());
 				new ClientThread(client, this);
 				if (clients.size() >= MAX_CONNECTIONS) {
 					System.out.println("No more players can connect");
 					break;
 				} else if (clients.size() >= MIN_CONNECTIONS) {
-					System.out.println("There are " + clients.size() + " players. Would you like to start the game now? (Y/N)");
+					System.out.println("\nThere are " + clients.size() + " players. Would you like to start the game now? (Y/N)");
 					if (console.getTrueFalse()) {
 						break;
 					}
@@ -120,8 +120,13 @@ public class Server {
 	 * @return <b>True</b> if successfully added to client list. <b>False</b> if user with that UUID is already connected
 	 */
 	public boolean addClient(String UUID, ClientThread client) {
-		System.out.println("Client UUID [" + UUID + "]");
-		return !started && (clients.putIfAbsent(UUID, client) == null);
+		boolean good = !started && (clients.putIfAbsent(UUID, client) == null);
+		if (good) {
+			System.out.println("Client UUID [" + UUID + "]");
+		} else {
+			System.out.println("Could not add client");
+		}
+		return good;
 	}
 	
 	/**

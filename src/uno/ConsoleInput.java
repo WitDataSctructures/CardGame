@@ -185,7 +185,7 @@ public class ConsoleInput extends InputManager {
 			if (input.equals("y") || input.equals("yes")) {
 				return true;
 			} else if (input.equals("n") || input.equals("no")) {
-				return true;
+				return false;
 			} else {
 				input = null;
 				System.out.println("Invalid input. Try again.");
