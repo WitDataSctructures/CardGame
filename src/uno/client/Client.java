@@ -90,7 +90,7 @@ public class Client {
 				System.out.println("Packet recieved was not a packet");
 				e.printStackTrace();
 			}
-			System.out.println("Your cards:\n\t" + player.getHand().toString());
+			System.out.println("Your cards:\n\t" + player.getHandString());
 		}
 	}
 }
