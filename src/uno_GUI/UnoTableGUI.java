@@ -10,7 +10,7 @@ import adt.*;
 import adt.Card;
 import uno.server.*;
 
-public class UnoTableGUI extends JFrame implements InputManager{
+public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	
 	
 	
@@ -76,9 +76,9 @@ public class UnoTableGUI extends JFrame implements InputManager{
 		select.setBounds(700, 250, 120, 60);
 		
 		//Button Listeners
-		draw.addActionListener((ActionListener) this);
-		callUno.addActionListener((ActionListener) this);
-		select.addActionListener((ActionListener) this);
+		draw.addActionListener(this);
+		callUno.addActionListener(this);
+		select.addActionListener(this);
 		
 		
 		
