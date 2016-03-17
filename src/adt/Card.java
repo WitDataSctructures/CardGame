@@ -144,7 +144,7 @@ public class Card implements Comparable<Card> {
 	 */
 	@Override
 	public int compareTo(Card otherCard) {
-		if (this.cardColor == otherCard.getColor() && this.cardSymbol == otherCard.getSymbol()) {
+		if (this.cardColor == otherCard.getColor() || this.cardSymbol == otherCard.getSymbol()) {
 			return 0;
 		} else if (this.cardSymbol.getComparisonValue() < otherCard.cardSymbol.getComparisonValue() || this.cardColor.getComparisonValue() < otherCard.cardColor.getComparisonValue()) {
 			return -1;
