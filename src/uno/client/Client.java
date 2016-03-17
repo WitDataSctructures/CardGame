@@ -3,16 +3,21 @@ package uno.client;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import uno.ConsoleInput;
+import uno.Deck;
+import uno.Player;
+import uno.server.ClientPacket;
 import uno.server.Server;
 
 public class Client {
 	public static void main(String[] args) {
 		if (args.length == 1) {
-			Client client = new Client(args[0]);
+			new Client(args[0]);
 		} else {
 			System.out.println("Invalid usage. Proper usage: uno [player_name]");
 		}
@@ -20,11 +25,13 @@ public class Client {
 
 	Socket server;
 	ConsoleInput in;
+	Player player;
 	// String playerName;
 
 	public Client(String name) {
 		// Get console input
 		in = new ConsoleInput();
+		player = new Player(name);
 		System.out.print("Please enter server address: ");
 		// Connect to a server
 		String serverIP = in.getHostIP();
@@ -58,7 +65,32 @@ public class Client {
 
 	private void run() {
 		while (true) {
-
+			try {
+				ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+				ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+				ClientPacket packet = (ClientPacket) in.readObject();
+				String message = packet.getMessage();
+				switch (message) {
+					case "dish_card":
+						// Server is trying to dish us out one card
+						Deck pickupPile = packet.getPickupPile();
+						player.addToHand(pickupPile.drawFromTop());
+						packet.setMessage("success");
+						packet.setPickupPile(pickupPile);
+						out.writeObject(packet); // Return the deck with one less card and new message
+						break;
+					default:
+						System.out.println("Unkown packet message");
+						break;
+				}
+			} catch (IOException e) {
+				System.out.println("Failed to fetch data from server");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.println("Packet recieved was not a packet");
+				e.printStackTrace();
+			}
+			System.out.println("Your cards:\n\t" + player.getHand().toString());
 		}
 	}
 }
