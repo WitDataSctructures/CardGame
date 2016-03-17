@@ -17,21 +17,22 @@ public class Client {
 			System.out.println("Invalid usage. Proper usage: uno [player_name]");
 		}
 	}
-	
+
 	Socket server;
 	ConsoleInput in;
 	// String playerName;
-	
+
 	public Client(String name) {
 		// Get console input
 		in = new ConsoleInput();
-		
+		System.out.print("Please enter server address: ");
 		// Connect to a server
 		String serverIP = in.getHostIP();
 		String address = serverIP.split(":")[0];
 		int port = Integer.parseInt(serverIP.split(":")[1]);
 		try {
 			server = new Socket(address, port);
+			System.out.println("Attempting to connect to " + server.getRemoteSocketAddress());
 			DataOutputStream out = new DataOutputStream(server.getOutputStream());
 			out.writeUTF("N" + Server.REGEX + name);
 			String result = new DataInputStream(server.getInputStream()).readUTF();
@@ -54,10 +55,10 @@ public class Client {
 			run();
 		}
 	}
-	
+
 	private void run() {
 		while (true) {
-		
+
 		}
 	}
 }
