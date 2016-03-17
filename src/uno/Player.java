@@ -19,7 +19,12 @@ public class Player {
 		playerHand.addToHand(card);
 	}
 
-	public Hand getHand() {
-		return playerHand;
+	/**
+	 * Returns a string representation of the hand
+	 * 
+	 * @return
+	 */
+	public String getHandString() {
+		return playerHand.toString();
 	}
 }
