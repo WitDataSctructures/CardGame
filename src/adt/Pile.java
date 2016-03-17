@@ -7,7 +7,13 @@
 
 package adt;
 
-public class Pile {
+import java.io.Serializable;
+
+public class Pile implements Serializable {
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = 717021340591068645L;
 	private Card top;
 
 	public void addToTop(Card card) {

@@ -17,6 +17,8 @@ public class Player {
 	}
 
 	public void addToHand(Card card) {
+		card.setNext(null);
+		card.setPrevious(null);
 		playerHand.addToHand(card);
 	}
 

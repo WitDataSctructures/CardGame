@@ -75,6 +75,7 @@ public class Server {
 				} else if (clients.size() >= MIN_CONNECTIONS) {
 					System.out.println("\nThere are " + clients.size() + " players. Would you like to start the game now? (Y/N)");
 					if (console.getTrueFalse()) {
+						System.out.println("Starting game!");
 						break;
 					}
 				}
@@ -82,6 +83,9 @@ public class Server {
 				System.out.println("Connection Closed");
 				e.printStackTrace();
 
+			} catch (ClassNotFoundException e) {
+				System.out.println("Connection closed. Not a proper packet.");
+				e.printStackTrace();
 			}
 		}
 		startGame();
@@ -97,18 +101,24 @@ public class Server {
 		pickup.shuffle(10);
 		discard = new Deck();
 		// Hand out initial cards
+		System.out.println("Dishing out cards");
 		for (int i = 0; i < 7; i++) {
 			for (ClientThread client : clients.values()) {
+				// System.out.println("TopCard(3) = " + pickup.peekFromTop());
 				ClientPacket packet = new ClientPacket("dish_card", pickup, discard, null);
 				ClientPacket returnedPacket = client.sendPacket(packet);
+				System.out.println("sending");
 				if (returnedPacket.getMessage().equals("success")) {
 					pickup = returnedPacket.getPickupPile();
 				} else {
-					System.out.println("Failed to hand out cards. Ending game");
+					System.out.println("Failed to hand out cards [" + packet.getMessage() + "]");
 					error = true;
 					break;
 				}
 			}
+		}
+		if (!error) {
+			System.out.println("Finsihed dishing out cards");
 		}
 		while (!error) {
 
