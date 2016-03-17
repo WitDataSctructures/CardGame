@@ -3,6 +3,7 @@ package uno.client;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,6 +13,7 @@ import uno.InputManager;
 import uno.Player;
 import uno.server.ClientPacket;
 import uno.server.Server;
+import uno_GUI.UnoTableGUI;
 
 public class Client {
 	public static void main(String[] args) {
@@ -28,25 +30,33 @@ public class Client {
 	// String playerName;
 
 	public Client(String name) {
-		// Get console input
-		in = new ConsoleInput();
+		// Get input
+		in = new UnoTableGUI();
 		player = new Player(name);
-		System.out.print("Please enter server address: ");
-		// Connect to a server
-		String serverIP = in.getHostIP();
-		String address = serverIP.split(":")[0];
-		int port = Integer.parseInt(serverIP.split(":")[1]);
-		try {
-			server = new Socket(address, port);
-		} catch (UnknownHostException e) {
-			System.out.println("Could not find server @ " + serverIP);
-			e.printStackTrace();
-			server = null;
-		} catch (IOException e) {
-			System.out.println("Invalid port number");
-			e.printStackTrace();
-			server = null;
+		while (server == null){
+			System.out.print("Please enter server address: ");
+			// Connect to a server
+			String serverIP = ":";
+			try{
+				serverIP = in.getHostIP();
+			} catch (NullPointerException e){
+				System.exit(0);
+			}
+			String address = serverIP.split(":")[0];
+			int port = Integer.parseInt(serverIP.split(":")[1]);
+			try {
+				server = new Socket(address, port);
+			} catch (UnknownHostException | ConnectException e) {
+				System.out.println("Could not find server @ " + serverIP);
+				e.printStackTrace();
+				server = null;
+			} catch (IOException e) {
+				System.out.println("Invalid port number");
+				e.printStackTrace();
+				server = null;
+			}
 		}
+		
 		if (server != null) { // If everything is all set
 			try {
 				run();
@@ -101,7 +111,7 @@ public class Client {
 				} catch (ClassNotFoundException e) {
 					System.out.println("Packet recieved was not a packet");
 					e.printStackTrace();
-				}
+				} 
 				System.out.println("Your cards:\n\t" + player.getHandString());
 			}
 		}
