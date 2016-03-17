@@ -3,7 +3,7 @@ package uno;
 import adt.Card;
 import adt.Card.Color;
 
-public abstract class InputManager {
+public interface InputManager {
 
 	/**
 	 * Get the card the user wants to place on the discard pile

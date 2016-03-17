@@ -6,7 +6,7 @@ import adt.Card;
 import adt.Card.Color;
 import adt.Card.Symbol;
 
-public class ConsoleInput extends InputManager {
+public class ConsoleInput implements InputManager {
 	
 	private Scanner console;
 	
