@@ -6,7 +6,7 @@ import adt.Card;
 import adt.Card.Color;
 import adt.Card.Symbol;
 
-public class ConsoleInput extends InputManager {
+public class ConsoleInput implements InputManager {
 	
 	private Scanner console;
 	
@@ -195,13 +195,54 @@ public class ConsoleInput extends InputManager {
 	}
 	
 	/**
-	 * A wrapper method for <i>isServer()</i>
-	 * 
 	 * @return true or false
 	 */
 	@Override
 	public boolean getTrueFalse() {
-		return isServer();
+		String input = null;
+		while (input == null) {
+			input = console.nextLine().trim().toLowerCase();
+			if (input.equals("y") || input.equals("yes")) {
+				return true;
+			} else if (input.equals("n") || input.equals("no")) {
+				return false;
+			} else {
+				input = null;
+				System.out.println("Invalid input. Try again.");
+			}
+		}
+		return false;
 	}
+
+	@Override
+	public Color getDesiredColor() {
+		String input = null;
+		Color cardColor = null;
+		while (input == null) {
+			input = console.nextLine().trim().toLowerCase();
+			switch (input) {
+			case "red":
+				cardColor = Color.RED;
+				break;
+			case "yellow":
+				cardColor = Color.YELLOW;
+				break;
+			case "green":
+				cardColor = Color.GREEN;
+				break;
+			case "blue":
+				cardColor = Color.BLUE;
+				break;
+			default:
+				System.out.println("Invalid Color.");
+				input = null;
+				break;
+		}
+		}
+		
+		return cardColor;
+	}
+	
+	
 	
 }

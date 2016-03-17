@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 
 import uno.ConsoleInput;
 import uno.Deck;
+import uno.InputManager;
 import uno.Player;
 import uno.server.ClientPacket;
 import uno.server.Server;
@@ -20,12 +21,12 @@ public class Client {
 			System.out.println("Invalid usage. Proper usage: uno [player_name]");
 		}
 	}
-	
+
 	Socket server;
-	ConsoleInput in;
+	InputManager in; // TODO: Change to InputManager
 	Player player;
 	// String playerName;
-	
+
 	public Client(String name) {
 		// Get console input
 		in = new ConsoleInput();
@@ -51,39 +52,46 @@ public class Client {
 				run();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 	}
-	
-	private void run() throws IOException {
+
+	private void run() throws IOException, ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-		
+
 		System.out.println("Attempting to connect to " + server.getRemoteSocketAddress());
-		out.writeUTF("N" + Server.REGEX + player.getName());
-		String result = in.readUTF();
-		if (result.equals("success")) {
+		out.writeObject(new ClientPacket("connect" + Server.REGEX + player.getName(), null, null, null));
+		ClientPacket result = (ClientPacket) in.readObject();
+		if (result.getMessage().equals("success")) {
 			System.out.println("Connected to server @ " + server.getRemoteSocketAddress());
 		} else {
 			System.out.println(result);
 			server = null;
 		}
-		
+
 		while (true) {
-			if (in.available() > 0) {
+			// System.out.println(in);
+			if (in.available() > 0 || true) {
 				try {
 					ClientPacket packet = (ClientPacket) in.readObject();
 					String message = packet.getMessage();
+					System.out.println("Message = [" + message + "]");
 					switch (message) {
 						case "dish_card":
 							// Server is trying to dish us out one card
-							Deck pickupPile = packet.getPickupPile();
-							player.addToHand(pickupPile.drawFromTop());
+							Deck drawPile = packet.getPickupPile();
+							// System.out.println("Drawn " + packet.getPickupPile().peekFromTop());
+							player.addToHand(drawPile.drawFromTop());
 							packet.setMessage("success");
-							packet.setPickupPile(pickupPile);
+							packet.setPickupPile(drawPile);
 							out.writeObject(packet); // Return the deck with one less card and new message
 							break;
 						default:
+							packet.setMessage("no_command");
+							out.writeObject(packet);
 							System.out.println("Unkown packet message");
 							break;
 					}

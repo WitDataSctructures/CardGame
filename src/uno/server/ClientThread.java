@@ -1,18 +1,19 @@
 package uno.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientThread {
-	
+
 	Socket client;
 	Server server;
 	boolean playersTurn = false;
-	
+
+	ObjectOutputStream out;
+	ObjectInputStream in;
+
 	/**
 	 * Middle man between each client and server
 	 * 
@@ -21,31 +22,27 @@ public class ClientThread {
 	 * @param server
 	 *            Server
 	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 */
-	public ClientThread(Socket client, Server server) throws IOException {
+	public ClientThread(Socket client, Server server) throws IOException, ClassNotFoundException {
 		this.client = client;
 		this.server = server;
-		
-		DataInputStream in = new DataInputStream(client.getInputStream());
-		DataOutputStream out = new DataOutputStream(client.getOutputStream());
-		String input = in.readUTF();
-		String[] data = input.split(Server.REGEX);
-		if (data[0].equals("N") && server.addClient(data[1], this)) { // Client is asking to be added and was successfully added
-			out.writeUTF("success");
+		out = new ObjectOutputStream(client.getOutputStream());
+		in = new ObjectInputStream(client.getInputStream());
+		ClientPacket input = (ClientPacket) in.readObject();
+		String[] data = input.getMessage().split(Server.REGEX);
+		if (data[0].equals("connect") && server.addClient(data[1], this)) { // Client is asking to be added and was successfully added
+			input.setMessage("success");
 		} else {
-			out.writeUTF("Failed to joing game :(");
+			input.setMessage("failed");
 		}
-		in.close();
-		out.close();
+		out.writeObject(input);
 	}
-	
+
 	public ClientPacket sendPacket(ClientPacket packet) {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
 			out.writeObject(packet);
-			ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-			ClientPacket returnPacket = (ClientPacket) in.readObject();
-			return returnPacket;
+			return (ClientPacket) in.readObject();
 		} catch (IOException e) {
 			System.out.println("Failed to write/read packet");
 			e.printStackTrace();

@@ -1,8 +1,9 @@
 package uno;
 
 import adt.Card;
+import adt.Card.Color;
 
-public abstract class InputManager {
+public interface InputManager {
 
 	/**
 	 * Get the card the user wants to place on the discard pile
@@ -30,11 +31,9 @@ public abstract class InputManager {
 	public abstract boolean isServer();
 	
 	/**
-	 * A wrapper method for <i>isServer()</i>
-	 * 
 	 * @return true or false
 	 */
-	public boolean getTrueFalse() {
-		return isServer();
-	}
+	public abstract boolean getTrueFalse();
+	
+	public abstract Color getDesiredColor();
 }

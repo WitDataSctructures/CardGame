@@ -1,6 +1,13 @@
 package adt;
 
-public class Card implements Comparable<Card> {
+import java.io.Serializable;
+
+public class Card implements Serializable, Comparable<Card> {
+	/**
+	 * generated UID
+	 */
+	private static final long serialVersionUID = -9003507646233425521L;
+
 	/**
 	 * Enum for Color of an UNO card with values for comparison
 	 * 
@@ -54,11 +61,7 @@ public class Card implements Comparable<Card> {
 	 *            on the card
 	 */
 	public Card(Color c, Symbol s) {
-		if (s == Symbol.WILD || s == Symbol.WILD_DRAW_FOUR) {
-			cardColor = Color.WILD;
-		} else {
-			cardColor = c;
-		}
+		cardColor = c;
 		cardSymbol = s;
 	}
 
@@ -106,10 +109,10 @@ public class Card implements Comparable<Card> {
 
 	/**
 	 * @param otherCard
-	 * @return true if cards have the same color, false otherwise
+	 * @return true if cards have the same color or one is a WILD color, false otherwise
 	 */
 	public boolean isColorSame(Card otherCard) {
-		if (this.cardColor == otherCard.getColor()) {
+		if (this.cardColor == otherCard.getColor() || this.cardColor == Color.WILD || otherCard.cardColor == Color.WILD) {
 			return true;
 		} else {
 			return false;
@@ -144,6 +147,9 @@ public class Card implements Comparable<Card> {
 	 */
 	@Override
 	public int compareTo(Card otherCard) {
+		if (this.cardColor == Color.WILD || otherCard.cardColor == Color.WILD){
+			return 0;
+		}
 		if (this.cardColor == otherCard.getColor() || this.cardSymbol == otherCard.getSymbol()) {
 			return 0;
 		} else if (this.cardSymbol.getComparisonValue() < otherCard.cardSymbol.getComparisonValue() || this.cardColor.getComparisonValue() < otherCard.cardColor.getComparisonValue()) {
