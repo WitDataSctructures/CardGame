@@ -147,6 +147,9 @@ public class Card implements Serializable, Comparable<Card> {
 	 */
 	@Override
 	public int compareTo(Card otherCard) {
+		if (this.cardColor == Color.WILD || otherCard.cardColor == Color.WILD){
+			return 0;
+		}
 		if (this.cardColor == otherCard.getColor() || this.cardSymbol == otherCard.getSymbol()) {
 			return 0;
 		} else if (this.cardSymbol.getComparisonValue() < otherCard.cardSymbol.getComparisonValue() || this.cardColor.getComparisonValue() < otherCard.cardColor.getComparisonValue()) {
