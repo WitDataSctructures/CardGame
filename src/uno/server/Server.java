@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import uno.ConsoleInput;
 import uno.Deck;
+import uno.PlayerStats;
 
 public class Server {
 
@@ -100,12 +101,13 @@ public class Server {
 		pickup = Deck.generateCards();
 		pickup.shuffle(10);
 		discard = new Deck();
+		discard.addToTop(pickup.drawFromTop());
 		// Hand out initial cards
 		System.out.println("Dishing out cards");
 		for (int i = 0; i < 7; i++) {
 			for (ClientThread client : clients.values()) {
 				// System.out.println("TopCard(3) = " + pickup.peekFromTop());
-				ClientPacket packet = new ClientPacket("dish_card", pickup, discard, null,false);
+				ClientPacket packet = new ClientPacket("dish_card", pickup, discard, null, false);
 				ClientPacket returnedPacket = client.sendPacket(packet);
 				System.out.println("sending");
 				if (returnedPacket.getMessage().equals("success")) {
@@ -120,9 +122,30 @@ public class Server {
 		if (!error) {
 			System.out.println("Finsihed dishing out cards");
 		}
-		while (!error) {
 
+		// Play the game
+		String[] playerNames = null;
+		playerNames = clients.keySet().toArray(playerNames);
+		PlayerStats stats = new PlayerStats(playerNames, new int[5], playerNames[0]);
+		boolean discardActive = false;
+		boolean gameDirection = false;
+		while (!error) {
+			ClientPacket results = clients.get(stats.getActivePlayer()).sendPacket(new ClientPacket("turn", pickup, discard, stats, discardActive));
+			switch (results.getMessage()) {
+				case "success":
+
+					break;
+				case "":
+					break;
+				default:
+					System.out.println("Not a valid client return message");
+					break;
+			}
 		}
+	}
+
+	private void getNextPlayer() {
+
 	}
 
 	/**
