@@ -40,8 +40,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	
 	JPanel discard = new JPanel();
 	JLabel discardText = new JLabel();
-	Card discardCard = null;
-	Pile discardPile;
+	Pile discardPile = new Pile();
 	
 	
 	String discardString = "";
@@ -211,16 +210,16 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 			//Select card from list and remove it, and add it to the discard pile iff it is compatable with the
 			//top card of the discard pile.
 			selectIndex = cardsInHand.getSelectedIndex();
-			if(selectIndex != -1 && (discardCard == null || listModel.getElementAt(selectIndex).compareTo(discardCard) == 1 || 
-					listModel.getElementAt(selectIndex).compareTo(discardCard) == 0)){
+			if(selectIndex != -1 && (discardPile.peekFromTop() == null || listModel.getElementAt(selectIndex).compareTo(discardPile.peekFromTop()) == 1 || 
+					listModel.getElementAt(selectIndex).compareTo(discardPile.peekFromTop()) == 0)){
 				
-				discardCard = listModel.getElementAt(selectIndex);
 				discardString = listModel.getElementAt(selectIndex).toString();
+				discardPile.addToTop(listModel.getElementAt(selectIndex));
 				listModel.remove(selectIndex);
 				selectIndex = -1;
 				discardText.setText(discardString);	
 				
-				//discardPile.addToTop(listModel.getElementAt(selectIndex+1));
+				
 				//End turn
 			}
 		}
@@ -230,7 +229,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	@Override
 	public Card getCard() {
 		// TODO Auto-generated method stub
-		return discardCard;
+		return discardPile.peekFromTop();
 	}
 
 	@Override
