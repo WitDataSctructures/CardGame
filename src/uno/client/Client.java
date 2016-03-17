@@ -64,7 +64,7 @@ public class Client {
 		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 
 		System.out.println("Attempting to connect to " + server.getRemoteSocketAddress());
-		out.writeObject(new ClientPacket("connect" + Server.REGEX + player.getName(), null, null, null));
+		out.writeObject(new ClientPacket("connect" + Server.REGEX + player.getName(), null, null, null, false));
 		ClientPacket result = (ClientPacket) in.readObject();
 		if (result.getMessage().equals("success")) {
 			System.out.println("Connected to server @ " + server.getRemoteSocketAddress());
