@@ -11,37 +11,37 @@ import adt.Card.Symbol;
 import uno.server.Server;
 
 public class Game {
-
+	
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Game game = new Game();
 	}
-
+	
 	// Input manager
 	private Scanner console;
-
+	
 	// Game setup
 	private final static int MIN_PLAYERS = 2, MAX_PLAYERS = 10;
 	private int playerCount = 0;
 	private ArrayList<Player> players;
-
+	
 	// Game time variables
 	private Deck discardPile;
 	private Deck pickupPile;
 	Player currentPlayer;
 	boolean reversed = false;
-
+	
 	// Networking
 	private Server server;
 	private Socket socket;
-
+	
 	public Game() {
 		console = new Scanner(System.in);
 		if (connectToServer()) {
-
+		
 		}
 	}
-
+	
 	/**
 	 * Attempt to connect to an existing server or create one.
 	 * 
@@ -90,7 +90,7 @@ public class Game {
 		}
 		return success;
 	}
-
+	
 	/**
 	 * Gets the server instance.
 	 * 
@@ -115,14 +115,14 @@ public class Game {
 		}
 		return server;
 	}
-
+	
 	public void setupGame() {
 		// Display current players
-
+		
 		// Create/fill pickup pile
 		discardPile = new Deck();
 		pickupPile = new Deck();
-
+		
 		for (Symbol symbol : Symbol.values()) {
 			for (Color color : Color.values()) {
 				// there are only four of each wild type and zeros
@@ -137,10 +137,10 @@ public class Game {
 				}
 			}
 		}
-
+		
 		// Shuffle pickup pile
-		pickupPile.shuffle();
-
+		pickupPile.shuffle(5);
+		
 		// Dish out cards
 		for (int i = 0; i < 7; i++) {
 			// Each player get 7 cards
@@ -148,19 +148,19 @@ public class Game {
 				player.addToHand(pickupPile.drawFromTop());
 			}
 		}
-
+		
 		// Add card to discard pile to start game
 		discardPile.addToTop(pickupPile.drawFromTop());
 	}
-
+	
 	private void start() {
 		// While the game isn't finished, keep going around the table
 		boolean finished = false;
 		while (!finished) {
-
+		
 		}
 	}
-
+	
 	private void setupPlayers() {
 		// Determine how many players there are
 		do {
@@ -171,7 +171,7 @@ public class Game {
 				System.out.println("You must have at least 2 players but no more than 10 players\n");
 			}
 		} while (playerCount == 0);
-
+		
 		// Create players array and give players names
 		players = new ArrayList<Player>(playerCount);
 		System.out.println("Give each player a name in the order in which you want them to go.");
@@ -190,7 +190,7 @@ public class Game {
 			players.set(i, new Player(name));
 		}
 	}
-
+	
 	private Player getNextPlayer() {
 		Player next = null;
 		int currentIndex = players.indexOf(currentPlayer);
@@ -209,5 +209,5 @@ public class Game {
 		}
 		return next;
 	}
-
+	
 }
