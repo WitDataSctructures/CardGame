@@ -194,4 +194,13 @@ public class ConsoleInput extends InputManager {
 		return false;
 	}
 	
+	/**
+	 * A wrapper method for <i>isServer()</i>
+	 * 
+	 * @return
+	 */
+	public boolean getTrueFalse() {
+		return isServer();
+	}
+	
 }

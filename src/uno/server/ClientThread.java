@@ -3,9 +3,11 @@ package uno.server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientThread extends Thread {
+public class ClientThread {
 	
 	Socket client;
 	Server server;
@@ -14,8 +16,10 @@ public class ClientThread extends Thread {
 	/**
 	 * Middle man between each client and server
 	 * 
-	 * @param client,
-	 *            server
+	 * @param client
+	 *            Socket
+	 * @param server
+	 *            Server
 	 * @throws IOException
 	 */
 	public ClientThread(Socket client, Server server) throws IOException {
@@ -25,7 +29,7 @@ public class ClientThread extends Thread {
 		DataInputStream in = new DataInputStream(client.getInputStream());
 		DataOutputStream out = new DataOutputStream(client.getOutputStream());
 		String[] input = in.readUTF().split(Server.REGEX);
-		if (input[0].equals("N") && server.addClient(input[1], client)) { // Client is asking to be added and was successfully added
+		if (input[0].equals("N") && server.addClient(input[1], this)) { // Client is asking to be added and was successfully added
 			out.writeUTF("success");
 		} else {
 			out.writeUTF("Failed to joing game :(");
@@ -33,13 +37,13 @@ public class ClientThread extends Thread {
 		
 	}
 	
-	@Override
 	public void run() {
 		try {
-			DataInputStream in = new DataInputStream(client.getInputStream());
+			ObjectInputStream in = new ObjectInputStream(client.getInputStream());
 			
 			if (playersTurn) {
-				DataOutputStream out = new DataOutputStream(client.getOutputStream());
+				ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

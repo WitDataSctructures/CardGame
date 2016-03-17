@@ -50,6 +50,9 @@ public class Client {
 			e.printStackTrace();
 			server = null;
 		}
+		if (server != null) { // If everything is all set
+			run();
+		}
 	}
 	
 	private void run() {
