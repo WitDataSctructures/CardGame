@@ -8,6 +8,7 @@ import java.awt.event.*;
 import uno.*;
 import adt.*;
 import adt.Card;
+import sun.awt.resources.awt;
 import uno.server.*;
 
 public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
@@ -237,33 +238,51 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		//Create a boolean for when the uno button is pressed
 		return false;
 	}
-
+	//Returns string which user types into the IP textbox
 	@Override
 	public String getHostIP() {
-		// TODO Auto-generated method stub
-		
-		//Returns string which user types into the IP textbox
+		String input = null;
+		while (input == null) {
+			input = JOptionPane.showInputDialog("Enter the IP address and port of the server:", "192.168.0.0:9090").trim();
+			if (input.contains(":") && input.contains(".")) {
+				return input;
+			} else {
+				input = null;
+				System.out.println("Invalid server address. Try again.");
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public boolean isServer() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean getTrueFalse() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
+	//Return Color for what the user wants their wild card to change the color to.
 	@Override
 	public adt.Card.Color getDesiredColor() {
-		// TODO Auto-generated method stub
+		Object[] options = { "Red", "Yellow", "Green", "Blue" };
+		int color = JOptionPane.showOptionDialog(null, "Click OK to continue", "Warning",
+		JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+		null, options, options[0]);
 		
-		//Return Color for what the user wants their wild card to change the color to.
-		return null;
+		switch (color) {
+		case 0:
+			return Card.Color.RED;
+		case 1:
+			return Card.Color.YELLOW;
+		case 2:
+			return Card.Color.GREEN;
+		case 3:
+			return Card.Color.BLUE;
+		default:
+			return null;
+		}
 	}
 	
 	

@@ -12,6 +12,7 @@ import uno.InputManager;
 import uno.Player;
 import uno.server.ClientPacket;
 import uno.server.Server;
+import uno_GUI.UnoTableGUI;
 
 public class Client {
 	public static void main(String[] args) {
@@ -29,7 +30,7 @@ public class Client {
 
 	public Client(String name) {
 		// Get console input
-		in = new ConsoleInput();
+		in = new UnoTableGUI();
 		player = new Player(name);
 		System.out.print("Please enter server address: ");
 		// Connect to a server
