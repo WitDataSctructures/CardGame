@@ -45,4 +45,12 @@ public class Hand {
 			playerHand.remove(cardToBeRemoved);
 		}
 	}
+	
+	public String toString(){
+		String output = "";
+		for (Card card : playerHand){
+			output += card.toString() + "\n";
+		}
+		return output;
+	}
 }
