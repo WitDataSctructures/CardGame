@@ -10,12 +10,13 @@ public class ConsoleInput extends InputManager {
 	
 	private Scanner console;
 	
-	public ConsoleInput(){
+	public ConsoleInput() {
 		console = new Scanner(System.in);
 	}
 	
 	/**
 	 * Get the card the user wants to place on the discard pile
+	 * 
 	 * @return Card from user's hand
 	 */
 	@Override
@@ -25,15 +26,15 @@ public class ConsoleInput extends InputManager {
 		Symbol cardSymbol = null;
 		while (input == null) {
 			input = console.nextLine().trim().toLowerCase();
-			try{
+			try {
 				color = input.split(" ")[0];
 				symbol = input.split(" ")[1];
-			} catch (ArrayIndexOutOfBoundsException e){
+			} catch (ArrayIndexOutOfBoundsException e) {
 				System.out.println("Invalid Input");
 				input = null;
 			}
 		}
-			switch(color){
+		switch (color) {
 			case "red":
 				cardColor = Color.RED;
 				break;
@@ -49,8 +50,8 @@ public class ConsoleInput extends InputManager {
 			default:
 				cardColor = Color.WILD;
 				break;
-			}
-			switch(symbol){
+		}
+		switch (symbol) {
 			case "0":
 				cardSymbol = Symbol.ZERO;
 				break;
@@ -115,36 +116,37 @@ public class ConsoleInput extends InputManager {
 				cardSymbol = Symbol.REVERSE;
 				break;
 			default:
-				if (input.contains("draw")){
-					if (cardColor == Color.WILD){
+				if (input.contains("draw")) {
+					if (cardColor == Color.WILD) {
 						cardSymbol = Symbol.WILD_DRAW_FOUR;
-					}else{
+					} else {
 						cardSymbol = Symbol.DRAW_TWO;
 					}
-				} else if (cardColor == Color.WILD){
+				} else if (cardColor == Color.WILD) {
 					cardSymbol = Symbol.WILD;
 				}
-			}
+		}
 		return new Card(cardColor, cardSymbol);
 	}
 	
 	/**
 	 * Get whether the user typed uno
+	 * 
 	 * @return whether the user typed uno
 	 */
 	@Override
 	public boolean getUno() {
-		if (console.hasNext("uno")){
+		if (console.hasNext("uno")) {
 			return true;
-		}else if (console.hasNext("uno!")){
+		} else if (console.hasNext("uno!")) {
 			return true;
-		}else if (console.hasNext("Uno")){
+		} else if (console.hasNext("Uno")) {
 			return true;
-		}else if (console.hasNext("Uno!")){
+		} else if (console.hasNext("Uno!")) {
 			return true;
-		}else if (console.hasNext("UNO")){
+		} else if (console.hasNext("UNO")) {
 			return true;
-		}else if (console.hasNext("UNO!")){
+		} else if (console.hasNext("UNO!")) {
 			return true;
 		}
 		return false;
@@ -152,6 +154,7 @@ public class ConsoleInput extends InputManager {
 	
 	/**
 	 * Get the IP of the server the user wants to connect to
+	 * 
 	 * @return the IP address of the server
 	 */
 	@Override
@@ -163,7 +166,7 @@ public class ConsoleInput extends InputManager {
 				return input;
 			} else {
 				input = null;
-				System.out.println("Invalid server adress. Try again.");
+				System.out.println("Invalid server address. Try again.");
 			}
 		}
 		return null;
@@ -171,6 +174,7 @@ public class ConsoleInput extends InputManager {
 	
 	/**
 	 * returns whether the user wants to be the server
+	 * 
 	 * @return true if hosting a server, false if not
 	 */
 	@Override
@@ -189,5 +193,5 @@ public class ConsoleInput extends InputManager {
 		}
 		return false;
 	}
-
+	
 }
