@@ -109,10 +109,10 @@ public class Card implements Serializable, Comparable<Card> {
 
 	/**
 	 * @param otherCard
-	 * @return true if cards have the same color, false otherwise
+	 * @return true if cards have the same color or one is a WILD color, false otherwise
 	 */
 	public boolean isColorSame(Card otherCard) {
-		if (this.cardColor == otherCard.getColor()) {
+		if (this.cardColor == otherCard.getColor() || this.cardColor == Color.WILD || otherCard.cardColor == Color.WILD) {
 			return true;
 		} else {
 			return false;
