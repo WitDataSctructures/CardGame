@@ -11,9 +11,10 @@ import uno.ConsoleInput;
 import uno.Deck;
 
 public class Server {
-	
+
 	public static void main(String[] args) {
 		try {
+			@SuppressWarnings("unused")
 			Server server;
 			if (args.length == 1) {
 				server = new Server(Integer.parseInt(args[0]));
@@ -25,48 +26,42 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
+
 	ConsoleInput console;
-	
+
 	private final static int DEFAULT_PORT = 9090;
 	private final static int MAX_CONNECTIONS = 10;
 	private final static int MIN_CONNECTIONS = 2;
 	public static final String REGEX = " ";
-	
-	private String name;
+
 	private ServerSocket connectionSocket;
-	
-	Deck pickup;
-	Deck discard;
-	
+
+	private Deck pickup;
+	private Deck discard;
+
 	boolean started = false;
-	
+
 	private HashMap<String, ClientThread> clients;
-	
-	public enum USER {
-		SERVER, USER
-	}
-	
+
 	public Server() throws IOException {
 		this(DEFAULT_PORT);
 	}
-	
+
 	public Server(int port) throws IOException {
-		name = InetAddress.getLocalHost().getHostName();
 		connectionSocket = new ServerSocket(port, 50, InetAddress.getLocalHost());
 		console = new ConsoleInput();
 		clients = new HashMap<String, ClientThread>();
 		listen();
 	}
-	
+
 	public String getServerAddress() throws UnknownHostException {
 		return InetAddress.getLocalHost().getHostAddress();
 	}
-	
+
 	public int getServerPort() throws UnknownHostException {
 		return connectionSocket.getLocalPort();
 	}
-	
+
 	public void listen() {
 		while (true) {
 			try {
@@ -86,49 +81,59 @@ public class Server {
 			} catch (IOException e) {
 				System.out.println("Connection Closed");
 				e.printStackTrace();
-				
+
 			}
 		}
 		startGame();
 	}
-	
+
 	/**
 	 * Starts a game of UNO. Should only be called if the <i>listen()</i> method has already been called
 	 */
 	private void startGame() {
+		boolean error = false;
 		started = true;
 		pickup = Deck.generateCards();
 		pickup.shuffle(10);
 		discard = new Deck();
+		// Hand out initial cards
 		for (int i = 0; i < 7; i++) {
 			for (ClientThread client : clients.values()) {
-			
+				ClientPacket packet = new ClientPacket("dish_card", pickup, discard, null);
+				ClientPacket returnedPacket = client.sendPacket(packet);
+				if (returnedPacket.getMessage().equals("success")) {
+					pickup = returnedPacket.getPickupPile();
+				} else {
+					System.out.println("Failed to hand out cards. Ending game");
+					error = true;
+					break;
+				}
 			}
 		}
-		while (true) {
-		
+		while (!error) {
+
 		}
 	}
-	
+
 	/**
 	 * Adds a client to the server's list of clients. Can only be done during the setup portion of the game.
 	 * 
-	 * @param UUID
+	 * @param UID
 	 *            String
 	 * @param client
 	 *            ClientThread
-	 * @return <b>True</b> if successfully added to client list. <b>False</b> if user with that UUID is already connected
+	 * @return <b>True</b> if successfully added to client list. <b>False</b> if user with that UID is already connected
 	 */
-	public boolean addClient(String UUID, ClientThread client) {
-		boolean good = !started && (clients.putIfAbsent(UUID, client) == null);
+	public boolean addClient(String UID, ClientThread client) {
+		boolean good = !started && (clients.putIfAbsent(UID, client) == null);
 		if (good) {
-			System.out.println("Client UUID [" + UUID + "]");
+			System.out.println("Client UID [" + UID + "]");
 		} else {
 			System.out.println("Could not add client");
 		}
 		return good;
 	}
-	
+
 	/**
 	 * Returns the server's socket
 	 * 

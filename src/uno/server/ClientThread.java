@@ -8,11 +8,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientThread {
-	
+
 	Socket client;
 	Server server;
 	boolean playersTurn = false;
-	
+
 	/**
 	 * Middle man between each client and server
 	 * 
@@ -25,7 +25,7 @@ public class ClientThread {
 	public ClientThread(Socket client, Server server) throws IOException {
 		this.client = client;
 		this.server = server;
-		
+
 		DataInputStream in = new DataInputStream(client.getInputStream());
 		DataOutputStream out = new DataOutputStream(client.getOutputStream());
 		String input = in.readUTF();
@@ -35,19 +35,23 @@ public class ClientThread {
 		} else {
 			out.writeUTF("Failed to joing game :(");
 		}
-		
+
 	}
-	
-	public void run() {
+
+	public ClientPacket sendPacket(ClientPacket packet) {
 		try {
+			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+			out.writeObject(packet);
 			ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-			
-			if (playersTurn) {
-				ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-				
-			}
+			ClientPacket returnPacket = (ClientPacket) in.readObject();
+			return returnPacket;
 		} catch (IOException e) {
+			System.out.println("Failed to write/read packet");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Packet returned was not a packet");
 			e.printStackTrace();
 		}
+		return null;
 	}
 }
