@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 
 import uno.ConsoleInput;
 import uno.Deck;
+import uno.InputManager;
 import uno.Player;
 import uno.server.ClientPacket;
 import uno.server.Server;
@@ -22,7 +23,7 @@ public class Client {
 	}
 
 	Socket server;
-	ConsoleInput in; // TODO: Change to InputManager
+	InputManager in; // TODO: Change to InputManager
 	Player player;
 	// String playerName;
 
