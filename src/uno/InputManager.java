@@ -28,4 +28,13 @@ public abstract class InputManager {
 	 * @return true if hosting a server, false if not
 	 */
 	public abstract boolean isServer();
+	
+	/**
+	 * A wrapper method for <i>isServer()</i>
+	 * 
+	 * @return true or false
+	 */
+	public boolean getTrueFalse() {
+		return isServer();
+	}
 }
