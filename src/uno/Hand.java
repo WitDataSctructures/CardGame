@@ -3,13 +3,13 @@ import java.util.ArrayList;
 
 import adt.Card;
 
-public class Hand {
+public class Hand{
 	
 	private ArrayList<Card> playerHand;
 	
 	//Default Constructor
 	public Hand(){
-		playerHand = null;
+		playerHand = new ArrayList<Card>();
 	}
 	
 	
