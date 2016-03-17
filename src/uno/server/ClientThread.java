@@ -8,11 +8,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientThread {
-
+	
 	Socket client;
 	Server server;
 	boolean playersTurn = false;
-
+	
 	/**
 	 * Middle man between each client and server
 	 * 
@@ -25,7 +25,7 @@ public class ClientThread {
 	public ClientThread(Socket client, Server server) throws IOException {
 		this.client = client;
 		this.server = server;
-
+		
 		DataInputStream in = new DataInputStream(client.getInputStream());
 		DataOutputStream out = new DataOutputStream(client.getOutputStream());
 		String input = in.readUTF();
@@ -38,7 +38,7 @@ public class ClientThread {
 		in.close();
 		out.close();
 	}
-
+	
 	public ClientPacket sendPacket(ClientPacket packet) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());

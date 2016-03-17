@@ -1,7 +1,5 @@
 package uno.client;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,12 +20,12 @@ public class Client {
 			System.out.println("Invalid usage. Proper usage: uno [player_name]");
 		}
 	}
-
+	
 	Socket server;
 	ConsoleInput in;
 	Player player;
 	// String playerName;
-
+	
 	public Client(String name) {
 		// Get console input
 		in = new ConsoleInput();
@@ -39,16 +37,6 @@ public class Client {
 		int port = Integer.parseInt(serverIP.split(":")[1]);
 		try {
 			server = new Socket(address, port);
-			System.out.println("Attempting to connect to " + server.getRemoteSocketAddress());
-			DataOutputStream out = new DataOutputStream(server.getOutputStream());
-			out.writeUTF("N" + Server.REGEX + name);
-			String result = new DataInputStream(server.getInputStream()).readUTF();
-			if (result.equals("success")) {
-				System.out.println("Connected to server @ " + serverIP);
-			} else {
-				System.out.println(result);
-				server = null;
-			}
 		} catch (UnknownHostException e) {
 			System.out.println("Could not find server @ " + serverIP);
 			e.printStackTrace();
@@ -59,38 +47,55 @@ public class Client {
 			server = null;
 		}
 		if (server != null) { // If everything is all set
-			run();
-		}
-	}
-
-	private void run() {
-		while (true) {
 			try {
-				ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-				ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-				ClientPacket packet = (ClientPacket) in.readObject();
-				String message = packet.getMessage();
-				switch (message) {
-					case "dish_card":
-						// Server is trying to dish us out one card
-						Deck pickupPile = packet.getPickupPile();
-						player.addToHand(pickupPile.drawFromTop());
-						packet.setMessage("success");
-						packet.setPickupPile(pickupPile);
-						out.writeObject(packet); // Return the deck with one less card and new message
-						break;
-					default:
-						System.out.println("Unkown packet message");
-						break;
-				}
+				run();
 			} catch (IOException e) {
-				System.out.println("Failed to fetch data from server");
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				System.out.println("Packet recieved was not a packet");
 				e.printStackTrace();
 			}
-			System.out.println("Your cards:\n\t" + player.getHandString());
+		}
+	}
+	
+	private void run() throws IOException {
+		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+		
+		System.out.println("Attempting to connect to " + server.getRemoteSocketAddress());
+		out.writeUTF("N" + Server.REGEX + player.getName());
+		String result = in.readUTF();
+		if (result.equals("success")) {
+			System.out.println("Connected to server @ " + server.getRemoteSocketAddress());
+		} else {
+			System.out.println(result);
+			server = null;
+		}
+		
+		while (true) {
+			if (in.available() > 0) {
+				try {
+					ClientPacket packet = (ClientPacket) in.readObject();
+					String message = packet.getMessage();
+					switch (message) {
+						case "dish_card":
+							// Server is trying to dish us out one card
+							Deck pickupPile = packet.getPickupPile();
+							player.addToHand(pickupPile.drawFromTop());
+							packet.setMessage("success");
+							packet.setPickupPile(pickupPile);
+							out.writeObject(packet); // Return the deck with one less card and new message
+							break;
+						default:
+							System.out.println("Unkown packet message");
+							break;
+					}
+				} catch (IOException e) {
+					System.out.println("Failed to fetch data from server");
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					System.out.println("Packet recieved was not a packet");
+					e.printStackTrace();
+				}
+				System.out.println("Your cards:\n\t" + player.getHandString());
+			}
 		}
 	}
 }
