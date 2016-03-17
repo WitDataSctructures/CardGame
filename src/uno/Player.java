@@ -18,4 +18,8 @@ public class Player {
 	public void addToHand(Card card) {
 		playerHand.addToHand(card);
 	}
+
+	public Hand getHand() {
+		return playerHand;
+	}
 }
