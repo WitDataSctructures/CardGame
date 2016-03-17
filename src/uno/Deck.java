@@ -9,8 +9,6 @@ import adt.Pile;
 
 public class Deck extends Pile {
 	
-	final static int NUM_OF_SHUFFLES = 2;
-	
 	public static Deck generateCards() {
 		Deck pile = new Deck();
 		for (Symbol symbol : Symbol.values()) {
@@ -31,13 +29,12 @@ public class Deck extends Pile {
 	}
 	
 	/**
-	 * removes cards from the top of the deck and places them in a random spot
-	 * in the deck.
+	 * removes cards from the top of the deck and places them in a random spot in the deck.
 	 */
-	public void shuffle() {
+	public void shuffle(int numberOfShuffles) {
 		Random random = new Random();
 		Card currentCard, placeAfter, placeBefore;
-		for (int i = this.getSize() * NUM_OF_SHUFFLES; i > 0; i--) {
+		for (int i = this.getSize() * numberOfShuffles; i > 0; i--) {
 			currentCard = this.drawFromTop();
 			placeAfter = this.peekFromTop();
 			for (int j = random.nextInt(this.getSize()); j > 0; j--) {
