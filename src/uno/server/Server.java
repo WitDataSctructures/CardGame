@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import adt.Card;
 import uno.ConsoleInput;
 import uno.Deck;
 import uno.PlayerStats;
@@ -126,26 +127,106 @@ public class Server {
 		// Play the game
 		String[] playerNames = null;
 		playerNames = clients.keySet().toArray(playerNames);
-		PlayerStats stats = new PlayerStats(playerNames, new int[5], playerNames[0]);
+		PlayerStats stats = new PlayerStats(playerNames, new int[playerNames.length], playerNames[0]);
 		boolean discardActive = false;
-		boolean gameDirection = false;
+		boolean normalDirection = true;
+
+		// Card counting
+		int oldPickup = pickup.getSize();
+		int oldDiscard = discard.getSize();
+		String previousPlayer = playerNames[0];
+		boolean previousUno = false;
 		while (!error) {
+			for (ClientThread client : clients.values()) {
+				@SuppressWarnings("unused")
+				ClientPacket update = client.sendPacket(new ClientPacket("update", pickup, discard, stats, discardActive));
+			}
 			ClientPacket results = clients.get(stats.getActivePlayer()).sendPacket(new ClientPacket("turn", pickup, discard, stats, discardActive));
+
+			// Count cards
+			pickup = results.getPickupPile();
+			discard = results.getDiscardPile();
+			int countDiff = (oldPickup - pickup.getSize()) + (oldDiscard - discard.getSize());
+			int[] cardCount = stats.getAllCardCount();
+			for (int i = 0; i < playerNames.length; i++) {
+				if (playerNames[i].equals(stats.getActivePlayer())) {
+					cardCount[i] += countDiff;
+				}
+			}
+			stats.setCardCount(cardCount);
+
+			// View message
+			boolean uno = false;
 			switch (results.getMessage()) {
 				case "success":
-
+					if (stats.getPlayersCardCount(stats.getActivePlayer()) == 0) {
+						System.out.println(stats.getActivePlayer() + " WINS!\nThanks for playing!");
+						System.exit(0);
+					}
 					break;
-				case "":
+				case "uno":
+					// Check other player count
+					if (stats.getPlayersCardCount(previousPlayer) == 1 && previousUno) {
+						uno = true;
+					}
+					previousUno = false;
+					if (stats.getPlayersCardCount(stats.getActivePlayer()) == 1) {
+						previousUno = true;
+					}
 					break;
 				default:
 					System.out.println("Not a valid client return message");
 					break;
 			}
+
+			previousPlayer = stats.getActivePlayer();
+			// View discard
+			if (!uno) {
+				if (results.getDiscardPile().peekFromTop().getSymbol().equals(Card.Symbol.SKIP)) {
+					if (normalDirection) {
+						stats.setActivePlayer(getNextPlayer(stats.getActivePlayer()));
+					} else {
+						stats.setActivePlayer(getPreviousPlayer(stats.getActivePlayer()));
+					}
+				}
+				if (normalDirection) {
+					stats.setActivePlayer(getNextPlayer(stats.getActivePlayer()));
+				} else {
+					stats.setActivePlayer(getPreviousPlayer(stats.getActivePlayer()));
+				}
+			}
+
 		}
 	}
 
-	private void getNextPlayer() {
+	private String getNextPlayer(String activePlayer) {
+		String[] playerNames = null;
+		playerNames = clients.keySet().toArray(playerNames);
+		for (int i = 0; i < playerNames.length; i++) {
+			if (playerNames[i].equals(activePlayer)) {
+				if (i + 1 < playerNames.length) {
+					return playerNames[i + 1];
+				} else {
+					return playerNames[0];
+				}
+			}
+		}
+		return playerNames[0];
+	}
 
+	private String getPreviousPlayer(String activePlayer) {
+		String[] playerNames = null;
+		playerNames = clients.keySet().toArray(playerNames);
+		for (int i = playerNames.length - 1; i >= 0; i--) {
+			if (playerNames[i].equals(activePlayer)) {
+				if (i - 1 >= 0) {
+					return playerNames[i - 1];
+				} else {
+					return playerNames[playerNames.length - 1];
+				}
+			}
+		}
+		return playerNames[0];
 	}
 
 	/**

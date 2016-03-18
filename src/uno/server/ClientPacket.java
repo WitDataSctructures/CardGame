@@ -16,15 +16,15 @@ public class ClientPacket implements Serializable {
 	private Deck pickupPile;
 	private Deck discardPile;
 	private PlayerStats stats;
-	private Object other;
 	private boolean discardActive;
+	private Object other;
 
 	public ClientPacket(String message, Deck pickupPile, Deck discardPile, PlayerStats stats, boolean discardActive) {
 		this.message = message;
 		this.pickupPile = pickupPile;
 		this.discardPile = discardPile;
 		this.stats = stats;
-		this.setDiscardActive(discardActive);
+		this.discardActive = discardActive;
 	}
 
 	/**
@@ -104,10 +104,6 @@ public class ClientPacket implements Serializable {
 
 	public boolean isDiscardActive() {
 		return discardActive;
-	}
-
-	public void setDiscardActive(boolean discardActive) {
-		this.discardActive = discardActive;
 	}
 
 }

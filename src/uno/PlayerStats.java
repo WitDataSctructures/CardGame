@@ -60,4 +60,28 @@ public class PlayerStats implements Serializable {
 	public String getActivePlayer() {
 		return activePlayer;
 	}
+
+	/**
+	 * @param playerNames
+	 *            the playerNames to set
+	 */
+	public void setPlayerNames(String[] playerNames) {
+		this.playerNames = playerNames;
+	}
+
+	/**
+	 * @param cardCount
+	 *            the cardCount to set
+	 */
+	public void setCardCount(int[] cardCount) {
+		this.cardCount = cardCount;
+	}
+
+	/**
+	 * @param activePlayer
+	 *            the activePlayer to set
+	 */
+	public void setActivePlayer(String activePlayer) {
+		this.activePlayer = activePlayer;
+	}
 }
