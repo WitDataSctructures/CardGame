@@ -135,21 +135,13 @@ public class ConsoleInput implements InputManager {
 	 * @return whether the user typed uno
 	 */
 	@Override
-	public boolean getUno() {
-		if (console.hasNext("uno")) {
-			return true;
-		} else if (console.hasNext("uno!")) {
-			return true;
-		} else if (console.hasNext("Uno")) {
-			return true;
-		} else if (console.hasNext("Uno!")) {
-			return true;
-		} else if (console.hasNext("UNO")) {
-			return true;
-		} else if (console.hasNext("UNO!")) {
-			return true;
+	public String getUno() {
+		String in = console.nextLine();
+		if (in.toLowerCase().contains("uno")) {
+			return "uno";
 		}
-		return false;
+		return in;
+		
 	}
 	
 	/**
@@ -213,7 +205,7 @@ public class ConsoleInput implements InputManager {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public Color getDesiredColor() {
 		String input = null;
@@ -221,28 +213,26 @@ public class ConsoleInput implements InputManager {
 		while (input == null) {
 			input = console.nextLine().trim().toLowerCase();
 			switch (input) {
-			case "red":
-				cardColor = Color.RED;
-				break;
-			case "yellow":
-				cardColor = Color.YELLOW;
-				break;
-			case "green":
-				cardColor = Color.GREEN;
-				break;
-			case "blue":
-				cardColor = Color.BLUE;
-				break;
-			default:
-				System.out.println("Invalid Color.");
-				input = null;
-				break;
-		}
+				case "red":
+					cardColor = Color.RED;
+					break;
+				case "yellow":
+					cardColor = Color.YELLOW;
+					break;
+				case "green":
+					cardColor = Color.GREEN;
+					break;
+				case "blue":
+					cardColor = Color.BLUE;
+					break;
+				default:
+					System.out.println("Invalid Color.");
+					input = null;
+					break;
+			}
 		}
 		
 		return cardColor;
 	}
-	
-	
 	
 }

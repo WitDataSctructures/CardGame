@@ -15,7 +15,7 @@ public class Pile implements Serializable {
 	 */
 	private static final long serialVersionUID = 717021340591068645L;
 	private Card top;
-
+	
 	public void addToTop(Card card) {
 		if (top != null) {
 			card.setNext(top);
@@ -23,7 +23,7 @@ public class Pile implements Serializable {
 		}
 		top = card;
 	}
-
+	
 	public Card drawFromTop() {
 		Card card = top;
 		if (top != null) {
@@ -31,7 +31,7 @@ public class Pile implements Serializable {
 		}
 		return card;
 	}
-
+	
 	public Card remove(Card card) {
 		Card current = top;
 		while (current != null) {
@@ -48,11 +48,11 @@ public class Pile implements Serializable {
 		}
 		return null;
 	}
-
+	
 	public Card peekFromTop() {
 		return top;
 	}
-
+	
 	public int getSize() {
 		int size = 0;
 		Card current = top;
@@ -62,19 +62,18 @@ public class Pile implements Serializable {
 		}
 		return size;
 	}
-
+	
 	@Override
 	public String toString() {
-		String s = "{ ";
+		String s = "";
 		Card current = top;
 		while (current != null) {
-			s += current;
+			s += "\t" + current + "\n";
 			if (current.getNext() == null) {
 				break;
 			}
-			s += ", ";
 			current = current.getNext();
 		}
-		return s + " }";
+		return s;
 	}
 }
