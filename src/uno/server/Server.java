@@ -127,13 +127,15 @@ public class Server {
 		// Play the game
 		String[] playerNames = new String[clients.size()];
 		playerNames = clients.keySet().toArray(playerNames);
-		PlayerStats stats = new PlayerStats(playerNames, new int[playerNames.length], playerNames[0]);
+		int[] counts = new int[playerNames.length];
+		for (int i = 0; i < counts.length; i++) {
+			counts[i] = 7;
+		}
+		PlayerStats stats = new PlayerStats(playerNames, counts, playerNames[0]);
 		boolean discardActive = false;
 		boolean normalDirection = true;
 		
 		// Card counting
-		int oldPickup = pickup.getSize();
-		int oldDiscard = discard.getSize();
 		String previousPlayer = playerNames[0];
 		boolean previousUno = false;
 		while (!error) {
@@ -145,16 +147,10 @@ public class Server {
 			
 			// Count cards
 			pickup = results.getPickupPile();
+			System.out.println("Discard\n" + results.getDiscardPile().toString());
 			discard = results.getDiscardPile();
-			int countDiff = (oldPickup - pickup.getSize()) + (oldDiscard - discard.getSize());
-			int[] cardCount = stats.getAllCardCount();
-			for (int i = 0; i < playerNames.length; i++) {
-				if (playerNames[i].equals(stats.getActivePlayer())) {
-					cardCount[i] += countDiff;
-				}
-			}
-			stats.setCardCount(cardCount);
-			
+			System.out.println("Discard\n" + discard.toString());
+			stats = results.getStats();
 			// View message
 			boolean uno = false;
 			switch (results.getMessage()) {

@@ -24,107 +24,103 @@ public class ConsoleInput implements InputManager {
 		String input = null, color = null, symbol = null;
 		Color cardColor = null;
 		Symbol cardSymbol = null;
-		while (input == null) {
-			input = console.nextLine().trim().toLowerCase();
-			try {
-				color = input.split(" ")[0];
-				symbol = input.split(" ")[1];
-			} catch (ArrayIndexOutOfBoundsException e) {
-				System.out.println("Invalid Input");
-				input = null;
-			}
-		}
-		switch (color) {
-			case "red":
-				cardColor = Color.RED;
-				break;
-			case "yellow":
-				cardColor = Color.YELLOW;
-				break;
-			case "green":
-				cardColor = Color.GREEN;
-				break;
-			case "blue":
-				cardColor = Color.BLUE;
-				break;
-			default:
-				cardColor = Color.WILD;
-				break;
-		}
-		switch (symbol) {
-			case "0":
-				cardSymbol = Symbol.ZERO;
-				break;
-			case "zero":
-				cardSymbol = Symbol.ZERO;
-				break;
-			case "1":
-				cardSymbol = Symbol.ONE;
-				break;
-			case "one":
-				cardSymbol = Symbol.ONE;
-				break;
-			case "2":
-				cardSymbol = Symbol.TWO;
-				break;
-			case "two":
-				cardSymbol = Symbol.TWO;
-				break;
-			case "3":
-				cardSymbol = Symbol.THREE;
-				break;
-			case "three":
-				cardSymbol = Symbol.THREE;
-				break;
-			case "4":
-				cardSymbol = Symbol.FOUR;
-				break;
-			case "four":
-				cardSymbol = Symbol.FOUR;
-				break;
-			case "5":
-				cardSymbol = Symbol.FIVE;
-				break;
-			case "five":
-				cardSymbol = Symbol.FIVE;
-				break;
-			case "6":
-				cardSymbol = Symbol.SIX;
-				break;
-			case "six":
-				cardSymbol = Symbol.SIX;
-				break;
-			case "7":
-				cardSymbol = Symbol.SEVEN;
-				break;
-			case "seven":
-				cardSymbol = Symbol.SEVEN;
-				break;
-			case "8":
-				cardSymbol = Symbol.EIGHT;
-				break;
-			case "eight":
-				cardSymbol = Symbol.EIGHT;
-				break;
-			case "9":
-				cardSymbol = Symbol.NINE;
-				break;
-			case "skip":
-				cardSymbol = Symbol.SKIP;
-				break;
-			case "reverse":
-				cardSymbol = Symbol.REVERSE;
-				break;
-			default:
-				if (input.contains("draw")) {
-					if (cardColor == Color.WILD) {
-						cardSymbol = Symbol.WILD_DRAW_FOUR;
-					} else {
-						cardSymbol = Symbol.DRAW_TWO;
-					}
-				} else if (cardColor == Color.WILD) {
-					cardSymbol = Symbol.WILD;
+		while (cardColor == null || cardSymbol == null) {
+			while (input == null) {
+				input = console.nextLine().trim().toLowerCase();
+				try {
+					color = input.split(" ")[0];
+					symbol = input.split(" ")[1];
+				} catch (ArrayIndexOutOfBoundsException e) {
+					System.out.println("Invalid Input");
+					input = null;
 				}
+			}
+			switch (color) {
+				case "r":
+				case "red":
+					cardColor = Color.RED;
+					break;
+				case "y":
+				case "yellow":
+					cardColor = Color.YELLOW;
+					break;
+				case "g":
+				case "green":
+					cardColor = Color.GREEN;
+					break;
+				case "b":
+				case "blue":
+					cardColor = Color.BLUE;
+					break;
+				case "w":
+				case "wild":
+					cardColor = Color.WILD;
+					break;
+				default:
+					cardColor = null;
+					System.out.println("Invalid card color. Try again.");
+					break;
+			}
+			switch (symbol) {
+				case "0":
+				case "zero":
+					cardSymbol = Symbol.ZERO;
+					break;
+				case "1":
+				case "one":
+					cardSymbol = Symbol.ONE;
+					break;
+				case "2":
+				case "two":
+					cardSymbol = Symbol.TWO;
+					break;
+				case "3":
+				case "three":
+					cardSymbol = Symbol.THREE;
+					break;
+				case "4":
+				case "four":
+					cardSymbol = Symbol.FOUR;
+					break;
+				case "5":
+				case "five":
+					cardSymbol = Symbol.FIVE;
+					break;
+				case "6":
+				case "six":
+					cardSymbol = Symbol.SIX;
+					break;
+				case "7":
+				case "seven":
+					cardSymbol = Symbol.SEVEN;
+					break;
+				case "8":
+				case "eight":
+					cardSymbol = Symbol.EIGHT;
+					break;
+				case "9":
+				case "nine":
+					cardSymbol = Symbol.NINE;
+					break;
+				case "skip":
+					cardSymbol = Symbol.SKIP;
+					break;
+				case "reverse":
+					cardSymbol = Symbol.REVERSE;
+					break;
+				default:
+					if (input.contains("draw_two")) {
+						cardSymbol = Symbol.DRAW_TWO;
+					} else if (input.contains("draw_four")) {
+						cardSymbol = Symbol.WILD_DRAW_FOUR;
+					} else if (cardColor == Color.WILD) {
+						cardSymbol = Symbol.WILD;
+					} else {
+						cardSymbol = null;
+						System.out.println("Invalid card symbol. Try again.");
+					}
+					break;
+			}
 		}
 		return new Card(cardColor, cardSymbol);
 	}

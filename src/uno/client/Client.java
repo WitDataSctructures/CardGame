@@ -21,6 +21,8 @@ public class Client {
 	public static void main(String[] args) {
 		if (args.length == 1) {
 			new Client(args[0]);
+		} else if (args.length == 2) {
+			new Client(args[0], args[1]);
 		} else {
 			System.out.println("Invalid usage. Proper usage: uno [player_name]");
 		}
@@ -46,6 +48,41 @@ public class Client {
 			} catch (NullPointerException e) {
 				System.exit(0);
 			}
+			String address = serverIP.split(":")[0];
+			int port = Integer.parseInt(serverIP.split(":")[1]);
+			try {
+				server = new Socket(address, port);
+			} catch (UnknownHostException | ConnectException e) {
+				System.out.println("Could not find server @ " + serverIP);
+				e.printStackTrace();
+				server = null;
+			} catch (IOException e) {
+				System.out.println("Invalid port number");
+				e.printStackTrace();
+				server = null;
+			}
+		}
+		
+		if (server != null) { // If everything is all set
+			try {
+				run();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public Client(String name, String ipAddress) {
+		// Get input
+		// input = new UnoTableGUI();
+		input = new ConsoleInput();
+		player = new Player(name);
+		while (server == null) {
+			System.out.print("Please enter server address: ");
+			// Connect to a server
+			String serverIP = ipAddress;
 			String address = serverIP.split(":")[0];
 			int port = Integer.parseInt(serverIP.split(":")[1]);
 			try {
@@ -96,6 +133,7 @@ public class Client {
 					System.out.println("Message = [" + message + "]");
 					Deck pickupPile = packet.getPickupPile();
 					Deck discardPile = packet.getDiscardPile();
+					PlayerStats stats = packet.getStats();
 					switch (message) {
 						case "dish_card":
 							// Server is trying to dish us out one card
@@ -131,28 +169,29 @@ public class Client {
 								System.out.println("You picked up a " + pickupPile.peekFromTop());
 								player.addToHand(pickupPile.drawFromTop());
 							} else {
-								if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD) || discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
-									System.out.println("What color would you like you wild to be?");
-									Color color = input.getDesiredColor();
-									Card dis = discardPile.drawFromTop();
-									dis.changeColor(color);
-									discardPile.addToTop(dis);
-								}
-								
 								System.out.println("What card would you like to play?");
 								Card card = null;
 								while (card == null) {
 									card = input.getCard();
-									if ((card.isColorSame(discardPile.peekFromTop()) || card.isSymbolSame(discardPile.peekFromTop())) && player.removeFromHand(card)) {
+									System.out.println("In card = " + card);
+									if (card != null && (card.isColorSame(discardPile.peekFromTop()) || card.isSymbolSame(discardPile.peekFromTop())) && player.removeFromHand(card)) {
 										System.out.println("You placed a " + card.toString());
-										discardPile.addToTop(card);
+										discardPile.addToTop(new Card(card.getColor(), card.getSymbol()));
+										// player.removeFromHand(card);
 									} else {
 										System.out.println("You cannot play that card. Try again");
 										card = null;
 									}
 								}
 								
-								// ((UnoTableGUI) input).setClient(this);
+								if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD) || discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
+									System.out.println("What color would you like you wild to be?");
+									Color color = input.getDesiredColor();
+									Card dis = discardPile.drawFromTop();
+									dis.changeColor(color);
+									discardPile.addToTop(dis);
+									
+								}
 							}
 							packet.setDiscardPile(discardPile);
 							packet.setPickupPile(pickupPile);
@@ -162,21 +201,29 @@ public class Client {
 								System.out.println("What is it?");
 								packet.setMessage(input.getUno());
 							}
+							System.out.println("Player Card Count = " + player.getCardCount());
+							if (stats.setPlayersCardCount(player.getName(), player.getCardCount())) {
+								System.out.println("Set stats");
+								packet.setStats(stats);
+							}
+							out.reset();
 							out.writeObject(packet);
 							break;
 						case "update":
-							String actPlayer = "";
-							String[] playNames = new String[packet.getStats().getPlayers().length];
-							int[] cardCount = new int[packet.getStats().getAllCardCount().length];
-							
-							for (int i = 0; i < playNames.length; i++) {
-								playNames = packet.getStats().getPlayers();
-								actPlayer = packet.getStats().getActivePlayer();
-								cardCount[i] = packet.getStats().getAllCardCount()[i];
-							}
-							PlayerStats pStats = new PlayerStats(playNames, cardCount, actPlayer);
-							
+							// String actPlayer = "";
+							// String[] playNames = new String[packet.getStats().getPlayers().length];
+							// int[] cardCount = new int[packet.getStats().getAllCardCount().length];
+							//
+							// for (int i = 0; i < playNames.length; i++) {
+							// playNames = packet.getStats().getPlayers();
+							// actPlayer = packet.getStats().getActivePlayer();
+							// cardCount[i] = packet.getStats().getAllCardCount()[i];
+							// }
+							// PlayerStats pStats = new PlayerStats(playNames, cardCount, actPlayer);
+							//
 							packet.setMessage("success");
+							// stats.setPlayersCardCount(stats.getActivePlayer(), player.getCardCount());
+							// packet.setStats(stats);
 							out.writeObject(packet);
 							break;
 						default:

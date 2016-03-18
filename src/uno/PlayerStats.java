@@ -7,17 +7,17 @@ public class PlayerStats implements Serializable {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -8436295657678335081L;
-
+	
 	private String[] playerNames;
 	private int[] cardCount;
 	private String activePlayer;
-
+	
 	public PlayerStats(String[] playerNames, int[] cardCount, String activePlayer) {
 		this.playerNames = playerNames;
 		this.cardCount = cardCount;
 		this.activePlayer = activePlayer;
 	}
-
+	
 	/**
 	 * Returns a string array of all the players names
 	 * 
@@ -26,7 +26,7 @@ public class PlayerStats implements Serializable {
 	public String[] getPlayers() {
 		return playerNames;
 	}
-
+	
 	/**
 	 * Returns and array of the card count of each player in the same order <i>getPlayer()</i> returns the names
 	 * 
@@ -35,7 +35,7 @@ public class PlayerStats implements Serializable {
 	public int[] getAllCardCount() {
 		return cardCount;
 	}
-
+	
 	/**
 	 * Returns the card count of a specific player. Returns -1 if player does not exist.
 	 * 
@@ -51,7 +51,17 @@ public class PlayerStats implements Serializable {
 		}
 		return -1;
 	}
-
+	
+	public boolean setPlayersCardCount(String playerName, int count) {
+		for (int i = 0; i < playerNames.length; i++) {
+			if (playerNames[i].equals(playerName)) {
+				cardCount[i] = count;
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Returns the name of the player who's turn it is. Also known as the 'active player'
 	 * 
@@ -60,7 +70,7 @@ public class PlayerStats implements Serializable {
 	public String getActivePlayer() {
 		return activePlayer;
 	}
-
+	
 	/**
 	 * @param playerNames
 	 *            the playerNames to set
@@ -68,7 +78,7 @@ public class PlayerStats implements Serializable {
 	public void setPlayerNames(String[] playerNames) {
 		this.playerNames = playerNames;
 	}
-
+	
 	/**
 	 * @param cardCount
 	 *            the cardCount to set
@@ -76,7 +86,7 @@ public class PlayerStats implements Serializable {
 	public void setCardCount(int[] cardCount) {
 		this.cardCount = cardCount;
 	}
-
+	
 	/**
 	 * @param activePlayer
 	 *            the activePlayer to set

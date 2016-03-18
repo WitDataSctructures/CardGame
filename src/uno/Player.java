@@ -24,7 +24,7 @@ public class Player {
 	
 	public boolean removeFromHand(Card card) {
 		for (Card c : playerHand.getHand()) {
-			if ((c.isColorSame(card) && c.isSymbolSame(card)) || (c.getSymbol().equals(Card.Symbol.WILD) || c.getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR))) {
+			if ((c.isColorSame(card) && c.isSymbolSame(card))) {
 				return playerHand.removeFromHand(c);
 			}
 		}
@@ -38,5 +38,9 @@ public class Player {
 	 */
 	public String getHandString() {
 		return playerHand.toString();
+	}
+	
+	public int getCardCount() {
+		return playerHand.getCardCount();
 	}
 }

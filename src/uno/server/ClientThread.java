@@ -6,14 +6,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientThread {
-
+	
 	Socket client;
 	Server server;
 	boolean playersTurn = false;
-
+	
 	ObjectOutputStream out;
 	ObjectInputStream in;
-
+	
 	/**
 	 * Middle man between each client and server
 	 * 
@@ -38,9 +38,10 @@ public class ClientThread {
 		}
 		out.writeObject(input);
 	}
-
+	
 	public ClientPacket sendPacket(ClientPacket packet) {
 		try {
+			out.reset();
 			out.writeObject(packet);
 			return (ClientPacket) in.readObject();
 		} catch (IOException e) {

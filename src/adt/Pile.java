@@ -35,16 +35,22 @@ public class Pile implements Serializable {
 	public Card remove(Card card) {
 		Card current = top;
 		while (current != null) {
-			if (current.compareTo(card) == 0) {
+			if (current.isColorSame(card) && current.isSymbolSame(card)) {
 				if (current.getPrevious() != null) {
 					current.getPrevious().setNext(current.getNext());
 				}
 				if (current.getNext() != null) {
 					current.getNext().setPrevious(current.getPrevious());
 				}
+				if (current.equals(top)) {
+					top = current.getNext();
+				}
+				current.setNext(null);
+				current.setPrevious(null);
 				return current;
+			} else {
+				current = current.getNext();
 			}
-			current = current.getNext();
 		}
 		return null;
 	}

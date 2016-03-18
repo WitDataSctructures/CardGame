@@ -52,9 +52,10 @@ public class Hand extends Pile {
 	
 	// If the Card exists in the hand, remove it, otherwise do nothing.
 	public boolean removeFromHand(Card cardToBeRemoved) {
-		if (isCardInHand(cardToBeRemoved)) {
-			return !remove(cardToBeRemoved).equals(null);
-		}
-		return false;
+		return !remove(cardToBeRemoved).equals(null);
+	}
+	
+	public int getCardCount() {
+		return this.getSize();
 	}
 }
