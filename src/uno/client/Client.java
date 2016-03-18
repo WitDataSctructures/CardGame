@@ -124,12 +124,36 @@ public class Client {
 									packet.setPickupPile(drawPile);
 									out.writeObject(packet);
 									break;
+								} 
+								
+								
+								
+								
+								
+								if(discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD) || 
+										discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)){
+									Card.Color = InputManager.getColor()
+									
 								}
 								
 								this.packet = packet;
 								((UnoTableGUI) input).setClient(this);
 							}
 							
+							break;
+						case "update":
+							String actPlayer = "";
+							String[] playNames = new String[packet.getStats().getPlayers().length]; 
+							int[] cardCount = new int[packet.getStats().getAllCardCount().length];
+							
+							for(int i = 0; i < playNames.length; i++){
+								playNames = packet.getStats().getPlayers();
+								actPlayer = packet.getStats().getActivePlayer();
+								cardCount[i] = packet.getStats().getAllCardCount()[i];
+							}
+							PlayerStats pStats = new PlayerStats(playNames, cardCount, actPlayer);
+							
+							packet.setMessage("success");
 							break;
 						default:
 							packet.setMessage("no_command");
