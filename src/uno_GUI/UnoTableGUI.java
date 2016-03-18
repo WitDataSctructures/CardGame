@@ -213,7 +213,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	@Override
 	public adt.Card.Color getDesiredColor() {
 		Object[] options = { "Red", "Yellow", "Green", "Blue" };
-		int color = JOptionPane.showOptionDialog(null, "Click OK to continue", "Warning",
+		int color = JOptionPane.showOptionDialog(null, "Choose a color for the wild card", "Choose Color",
 		JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 		null, options, options[0]);
 		
