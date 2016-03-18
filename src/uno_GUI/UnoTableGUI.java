@@ -9,7 +9,6 @@ import uno.*;
 import uno.client.Client;
 import adt.*;
 import adt.Card;
-import sun.awt.resources.awt;
 import uno.server.*;
 
 public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
@@ -32,7 +31,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	JButton select = new JButton("Play Card");
 		
 	int playerCount = 2;
-	String[] playerNames = {"Player1", "Player2", " ", " ", " ", " ", " ", " ", " ", " "};
+	String[] playerNames = {" ", " ", "", "", "", "", "", "", "", ""};
 	JList<String> players = new JList<String>(playerNames);
 	
 	DefaultListModel<Card> listModel;
@@ -52,7 +51,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 
 	private Client client;
 	
-	
+	boolean unoCalled = false;
 	
 	
 	
@@ -88,9 +87,8 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		callUno.addActionListener(this);
 		select.addActionListener(this);
 		
-		
-		
-		getPlayerInfo();
+		players.setBounds(0,0,150,200);
+		players.setBackground(Color.LIGHT_GRAY);
 		
 		//Card List setup
 		listModel = new DefaultListModel<Card>();
@@ -112,18 +110,8 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 		unoGame.add(emptyLabel);
 		
 	}
-	
-	public static void main(String[] args){
-//		new UnoTableGUI();
-	}
-	
-	public void getPlayerInfo(){
-		players.setBounds(0,0,150,200);
-		players.setBackground(Color.LIGHT_GRAY);
-	}
-
-	
-
+		
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == draw){
@@ -132,22 +120,10 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 			Card drawnCard = packet.getPickupPile().drawFromTop();
 			listModel.addElement(drawnCard);
 			
-			/*For Testing...
-			
-			Card drawnCard2 = new Card(Card.Color.BLUE, Card.Symbol.EIGHT);
-			Card drawnCard3 = new Card(Card.Color.RED, Card.Symbol.FOUR);
-			listModel.addElement(drawnCard2);
-			listModel.addElement(drawnCard3);
-			
-			Card drawnCard4 = new Card(Card.Color.WILD, Card.Symbol.WILD);
-			listModel.addElement(drawnCard4);
-			
-			*/
-			
 		}
 		if(event.getSource() == callUno){
 			//Call/Check Uno event
-			
+			unoCalled = true;
 			//whenever there is a new turn set a boolean to false.
 			
 		}
@@ -182,7 +158,7 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 	public boolean getUno() {
 		// TODO Auto-generated method stub
 		//Create a boolean for when the uno button is pressed
-		return false;
+		return unoCalled;
 	}
 	//Returns string which user types into the IP textbox
 	@Override
@@ -230,8 +206,10 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener{
 			return null;
 		}
 	}
-
+	
+	//Start of a new turn
 	public void setClient(Client client) {
+		unoCalled = false;
 		this.client = client;
 		packet = client.getPacket();
 		PlayerStats stats = packet.getStats();
