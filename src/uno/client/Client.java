@@ -27,13 +27,13 @@ public class Client {
 			System.out.println("Invalid usage. Proper usage: uno [player_name]");
 		}
 	}
-	
+
 	Socket server;
 	InputManager input; // TODO: Change to InputManager
 	Player player;
 	// String playerName;
 	private ClientPacket packet;
-	
+
 	public Client(String name) {
 		// Get input
 		// input = new UnoTableGUI();
@@ -62,7 +62,7 @@ public class Client {
 				server = null;
 			}
 		}
-		
+
 		if (server != null) { // If everything is all set
 			try {
 				run();
@@ -73,7 +73,7 @@ public class Client {
 			}
 		}
 	}
-	
+
 	public Client(String name, String ipAddress) {
 		// Get input
 		// input = new UnoTableGUI();
@@ -97,7 +97,7 @@ public class Client {
 				server = null;
 			}
 		}
-		
+
 		if (server != null) { // If everything is all set
 			try {
 				run();
@@ -107,13 +107,13 @@ public class Client {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	private void run() throws IOException, ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-		
+
 		System.out.println("Attempting to connect to " + server.getRemoteSocketAddress());
 		out.writeObject(new ClientPacket("connect" + Server.REGEX + player.getName(), null, null, null, false));
 		ClientPacket result = (ClientPacket) in.readObject();
@@ -123,7 +123,7 @@ public class Client {
 			System.out.println(result);
 			server = null;
 		}
-		
+
 		while (true) {
 			// System.out.println(in);
 			if (in.available() > 0 || true) {
@@ -180,7 +180,7 @@ public class Client {
 											System.out.println("You placed a " + card.toString());
 											discardPile.addToTop(card);
 											// player.removeFromHand(card);
-											if (card.getSymbol().equals(Card.Symbol.DRAW_TWO) || card.getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR) || card.getSymbol().equals(Card.Symbol.WILD) || card.getSymbol().equals(Card.Symbol.SKIP)) {
+											if (card.getSymbol().equals(Card.Symbol.DRAW_TWO) || card.getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR) || card.getSymbol().equals(Card.Symbol.WILD) || card.getSymbol().equals(Card.Symbol.SKIP) || card.getSymbol().equals(Card.Symbol.REVERSE)) {
 												packet.setDiscardActive(true);
 												System.out.println("isActive = " + packet.isDiscardActive());
 											}
@@ -189,7 +189,7 @@ public class Client {
 											card = null;
 										}
 									}
-									
+
 									if (packet.isDiscardActive() && (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD) || discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR))) {
 										System.out.println("What color would you like you wild to be?");
 										Color color = input.getDesiredColor();
@@ -253,9 +253,9 @@ public class Client {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	// TODO: Delete after UnoTableGUI is gone
 	public ClientPacket getPacket() {
 		return packet;
