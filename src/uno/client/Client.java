@@ -146,6 +146,7 @@ public class Client {
 						case "turn":
 							if (packet.isDiscardActive()) {
 								if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.DRAW_TWO)) {
+									System.out.println("Draw_Two card recieved, drawing two cards");
 									player.addToHand(pickupPile.drawFromTop());
 									player.addToHand(pickupPile.drawFromTop());
 									packet.setMessage("success");
@@ -154,6 +155,7 @@ public class Client {
 									out.writeObject(packet);
 									break;
 								} else if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
+									System.out.println("Wild_Draw_Four Recieved, drawing four cards");
 									player.addToHand(pickupPile.drawFromTop());
 									player.addToHand(pickupPile.drawFromTop());
 									player.addToHand(pickupPile.drawFromTop());
