@@ -152,6 +152,7 @@ public class Client {
 									packet.setMessage("success");
 									packet.setPickupPile(pickupPile);
 									packet.setDiscardActive(false);
+									out.reset();
 									out.writeObject(packet);
 									break;
 								} else if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
@@ -163,6 +164,7 @@ public class Client {
 									packet.setMessage("success");
 									packet.setPickupPile(pickupPile);
 									packet.setDiscardActive(false);
+									out.reset();
 									out.writeObject(packet);
 									break;
 								}
