@@ -186,7 +186,7 @@ public class Client {
 											// player.removeFromHand(card);
 											if (card.getSymbol().equals(Card.Symbol.DRAW_TWO) || card.getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR) || card.getSymbol().equals(Card.Symbol.WILD) || card.getSymbol().equals(Card.Symbol.SKIP) || card.getSymbol().equals(Card.Symbol.REVERSE)) {
 												packet.setDiscardActive(true);
-												System.out.println("isActive = " + packet.isDiscardActive());
+												// System.out.println("isActive = " + packet.isDiscardActive());
 											}
 										} else {
 											System.out.println("You cannot play that card. Try again");
@@ -238,8 +238,10 @@ public class Client {
 							// packet.setStats(stats);
 							out.reset();
 							out.writeObject(packet);
+							System.out.println("Discard was " + packet.getDiscardPile().peekFromTop().toString());
 							System.out.println("Player: " + player.getName());
 							System.out.println("Your cards:\n" + player.getHandString());
+
 							break;
 						default:
 							packet.setMessage("no_command");
