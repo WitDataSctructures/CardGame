@@ -147,13 +147,15 @@ public class Server {
 			
 			// Count cards
 			pickup = results.getPickupPile();
-			System.out.println("Discard\n" + results.getDiscardPile().toString());
 			discard = results.getDiscardPile();
 			System.out.println("Discard\n" + discard.toString());
+			discardActive = results.isDiscardActive();
 			stats = results.getStats();
 			// View message
 			boolean uno = false;
 			switch (results.getMessage()) {
+				default:
+					System.out.println("Tell everyone that " + stats.getActivePlayer() + " says " + results.getMessage());
 				case "success":
 					System.out.println("Recieved success");
 					if (stats.getPlayersCardCount(stats.getActivePlayer()) == 0) {
@@ -172,20 +174,18 @@ public class Server {
 						previousUno = true;
 					}
 					break;
-				default:
-					System.out.println("Tell everyone that " + stats.getActivePlayer() + " says " + results.getMessage());
-					break;
 			}
 			
 			previousPlayer = stats.getActivePlayer();
 			// View discard
 			if (!uno) {
-				if (results.getDiscardPile().peekFromTop().getSymbol().equals(Card.Symbol.SKIP)) {
+				if (discardActive && results.getDiscardPile().peekFromTop().getSymbol().equals(Card.Symbol.SKIP)) {
 					if (normalDirection) {
 						stats.setActivePlayer(getNextPlayer(stats.getActivePlayer()));
 					} else {
 						stats.setActivePlayer(getPreviousPlayer(stats.getActivePlayer()));
 					}
+					discardActive = false;
 				}
 				if (normalDirection) {
 					stats.setActivePlayer(getNextPlayer(stats.getActivePlayer()));

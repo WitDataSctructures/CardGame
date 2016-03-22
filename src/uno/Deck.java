@@ -9,12 +9,12 @@ import adt.Card.Symbol;
 import adt.Pile;
 
 public class Deck extends Pile implements Serializable {
-
+	
 	/**
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -7864976685987399548L;
-
+	
 	public static Deck generateCards() {
 		Deck pile = new Deck();
 		for (Symbol symbol : Symbol.values()) {
@@ -22,9 +22,10 @@ public class Deck extends Pile implements Serializable {
 				// there are only four of each wild type and zeros
 				boolean isZero = symbol == Symbol.ZERO && color != Color.WILD;
 				boolean isWild = symbol == Symbol.WILD && color == Color.WILD;
-				if (isZero || isWild) {
+				boolean isDrawFour = symbol == Symbol.WILD_DRAW_FOUR && color == Color.WILD;
+				if (isZero || isWild || isDrawFour) {
 					pile.addToTop(new Card(color, symbol));
-				} else if (symbol != Symbol.ZERO && symbol != Symbol.WILD && color != Color.WILD) {
+				} else if (symbol != Symbol.ZERO && symbol != Symbol.WILD && symbol != Symbol.WILD_DRAW_FOUR && color != Color.WILD) {
 					// Two of every other type of card
 					pile.addToTop(new Card(color, symbol));
 					pile.addToTop(new Card(color, symbol));
@@ -33,7 +34,7 @@ public class Deck extends Pile implements Serializable {
 		}
 		return pile;
 	}
-
+	
 	/**
 	 * removes cards from the top of the deck and places them in a random spot in the deck.
 	 */
@@ -50,6 +51,6 @@ public class Deck extends Pile implements Serializable {
 			placeAfter.setNext(currentCard);
 			currentCard.setNext(placeBefore);
 		}
-
+		
 	}
 }

@@ -28,6 +28,9 @@ public class Pile implements Serializable {
 		Card card = top;
 		if (top != null) {
 			top = top.getNext();
+			top.setPrevious(card.getPrevious());
+			card.setNext(null);
+			card.setPrevious(null);
 		}
 		return card;
 	}

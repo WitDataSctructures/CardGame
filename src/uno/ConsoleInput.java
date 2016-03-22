@@ -113,7 +113,7 @@ public class ConsoleInput implements InputManager {
 						cardSymbol = Symbol.DRAW_TWO;
 					} else if (input.contains("draw_four")) {
 						cardSymbol = Symbol.WILD_DRAW_FOUR;
-					} else if (cardColor == Color.WILD) {
+					} else if (cardColor == Color.WILD || input.contains("wild")) {
 						cardSymbol = Symbol.WILD;
 					} else {
 						cardSymbol = null;
