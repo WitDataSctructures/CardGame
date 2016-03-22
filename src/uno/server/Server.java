@@ -13,7 +13,7 @@ import uno.Deck;
 import uno.PlayerStats;
 
 public class Server {
-	
+
 	public static void main(String[] args) {
 		try {
 			@SuppressWarnings("unused")
@@ -28,42 +28,42 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
+
 	ConsoleInput console;
-	
+
 	private final static int DEFAULT_PORT = 9090;
 	private final static int MAX_CONNECTIONS = 10;
 	private final static int MIN_CONNECTIONS = 2;
 	public static final String REGEX = " ";
-	
+
 	private ServerSocket connectionSocket;
-	
+
 	private Deck pickup;
 	private Deck discard;
-	
+
 	boolean started = false;
-	
+
 	private HashMap<String, ClientThread> clients;
-	
+
 	public Server() throws IOException {
 		this(DEFAULT_PORT);
 	}
-	
+
 	public Server(int port) throws IOException {
 		connectionSocket = new ServerSocket(port, 50, InetAddress.getLocalHost());
 		console = new ConsoleInput();
 		clients = new HashMap<String, ClientThread>();
 		listen();
 	}
-	
+
 	public String getServerAddress() throws UnknownHostException {
 		return InetAddress.getLocalHost().getHostAddress();
 	}
-	
+
 	public int getServerPort() throws UnknownHostException {
 		return connectionSocket.getLocalPort();
 	}
-	
+
 	public void listen() {
 		while (true) {
 			try {
@@ -84,7 +84,7 @@ public class Server {
 			} catch (IOException e) {
 				System.out.println("Connection Closed");
 				e.printStackTrace();
-				
+
 			} catch (ClassNotFoundException e) {
 				System.out.println("Connection closed. Not a proper packet.");
 				e.printStackTrace();
@@ -92,7 +92,7 @@ public class Server {
 		}
 		startGame();
 	}
-	
+
 	/**
 	 * Starts a game of UNO. Should only be called if the <i>listen()</i> method has already been called
 	 */
@@ -123,7 +123,7 @@ public class Server {
 		if (!error) {
 			System.out.println("Finsihed dishing out cards");
 		}
-		
+
 		// Play the game
 		String[] playerNames = new String[clients.size()];
 		playerNames = clients.keySet().toArray(playerNames);
@@ -134,7 +134,7 @@ public class Server {
 		PlayerStats stats = new PlayerStats(playerNames, counts, playerNames[0]);
 		boolean discardActive = false;
 		boolean normalDirection = true;
-		
+
 		// Card counting
 		String previousPlayer = playerNames[0];
 		boolean previousUno = false;
@@ -144,7 +144,7 @@ public class Server {
 				ClientPacket update = client.sendPacket(new ClientPacket("update", pickup, discard, stats, discardActive));
 			}
 			ClientPacket results = clients.get(stats.getActivePlayer()).sendPacket(new ClientPacket("turn", pickup, discard, stats, discardActive));
-			
+
 			// Count cards
 			pickup = results.getPickupPile();
 			discard = results.getDiscardPile();
@@ -162,20 +162,24 @@ public class Server {
 						System.out.println(stats.getActivePlayer() + " WINS!\nThanks for playing!");
 						System.exit(0);
 					}
-					break;
-				case "uno":
-					System.out.println("Recieved uno");
-					// Check other player count
-					if (stats.getPlayersCardCount(previousPlayer) == 1 && previousUno) {
-						uno = true;
-					}
-					previousUno = false;
-					if (stats.getPlayersCardCount(stats.getActivePlayer()) == 1) {
-						previousUno = true;
+					if (discardActive && discard.peekFromTop().getSymbol().equals(Card.Symbol.REVERSE)) {
+						discardActive = false;
+						normalDirection = !normalDirection;
 					}
 					break;
+				// case "uno":
+				// System.out.println("Recieved uno");
+				// // Check other player count
+				// if (stats.getPlayersCardCount(previousPlayer) == 1 && previousUno) {
+				// uno = true;
+				// }
+				// previousUno = false;
+				// if (stats.getPlayersCardCount(stats.getActivePlayer()) == 1) {
+				// previousUno = true;
+				// }
+				// break;
 			}
-			
+
 			previousPlayer = stats.getActivePlayer();
 			// View discard
 			if (!uno) {
@@ -193,10 +197,10 @@ public class Server {
 					stats.setActivePlayer(getPreviousPlayer(stats.getActivePlayer()));
 				}
 			}
-			
+
 		}
 	}
-	
+
 	private String getNextPlayer(String activePlayer) {
 		String[] playerNames = new String[clients.size()];
 		playerNames = clients.keySet().toArray(playerNames);
@@ -211,7 +215,7 @@ public class Server {
 		}
 		return playerNames[0];
 	}
-	
+
 	private String getPreviousPlayer(String activePlayer) {
 		String[] playerNames = new String[clients.size()];
 		playerNames = clients.keySet().toArray(playerNames);
@@ -226,7 +230,7 @@ public class Server {
 		}
 		return playerNames[0];
 	}
-	
+
 	/**
 	 * Adds a client to the server's list of clients. Can only be done during the setup portion of the game.
 	 * 
@@ -245,7 +249,7 @@ public class Server {
 		}
 		return good;
 	}
-	
+
 	/**
 	 * Returns the server's socket
 	 * 
