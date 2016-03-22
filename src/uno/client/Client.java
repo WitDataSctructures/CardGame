@@ -150,6 +150,7 @@ public class Client {
 									player.addToHand(pickupPile.drawFromTop());
 									packet.setMessage("success");
 									packet.setPickupPile(pickupPile);
+									packet.setDiscardActive(false);
 									out.writeObject(packet);
 									break;
 								} else if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
@@ -159,38 +160,46 @@ public class Client {
 									player.addToHand(pickupPile.drawFromTop());
 									packet.setMessage("success");
 									packet.setPickupPile(pickupPile);
+									packet.setDiscardActive(false);
 									out.writeObject(packet);
 									break;
 								}
-							}
-							System.out.println("The card on the discard pile is a " + discardPile.peekFromTop());
-							System.out.println("Would you like to draw a card? (Y/N)");
-							if (input.getTrueFalse()) {
-								System.out.println("You picked up a " + pickupPile.peekFromTop());
-								player.addToHand(pickupPile.drawFromTop());
 							} else {
-								System.out.println("What card would you like to play?");
-								Card card = null;
-								while (card == null) {
-									card = input.getCard();
-									System.out.println("In card = " + card);
-									if (card != null && (card.isColorSame(discardPile.peekFromTop()) || card.isSymbolSame(discardPile.peekFromTop())) && player.removeFromHand(card)) {
-										System.out.println("You placed a " + card.toString());
-										discardPile.addToTop(new Card(card.getColor(), card.getSymbol()));
-										// player.removeFromHand(card);
-									} else {
-										System.out.println("You cannot play that card. Try again");
-										card = null;
+								System.out.println("The card on the discard pile is a " + discardPile.peekFromTop());
+								System.out.println("Would you like to draw a card? (Y/N)");
+								if (input.getTrueFalse()) {
+									System.out.println("You picked up a " + pickupPile.peekFromTop());
+									player.addToHand(pickupPile.drawFromTop());
+								} else {
+									System.out.println("What card would you like to play?");
+									Card card = null;
+									while (card == null) {
+										card = input.getCard();
+										System.out.println("In card = " + card);
+										if (card != null && (card.isColorSame(discardPile.peekFromTop()) || card.isSymbolSame(discardPile.peekFromTop())) && player.removeFromHand(card)) {
+											System.out.println("You placed a " + card.toString());
+											discardPile.addToTop(card);
+											// player.removeFromHand(card);
+											if (card.getSymbol().equals(Card.Symbol.DRAW_TWO) || card.getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR) || card.getSymbol().equals(Card.Symbol.WILD) || card.getSymbol().equals(Card.Symbol.SKIP)) {
+												packet.setDiscardActive(true);
+												System.out.println("isActive = " + packet.isDiscardActive());
+											}
+										} else {
+											System.out.println("You cannot play that card. Try again");
+											card = null;
+										}
 									}
-								}
-								
-								if (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD) || discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR)) {
-									System.out.println("What color would you like you wild to be?");
-									Color color = input.getDesiredColor();
-									Card dis = discardPile.drawFromTop();
-									dis.changeColor(color);
-									discardPile.addToTop(dis);
 									
+									if (packet.isDiscardActive() && (discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD) || discardPile.peekFromTop().getSymbol().equals(Card.Symbol.WILD_DRAW_FOUR))) {
+										System.out.println("What color would you like you wild to be?");
+										Color color = input.getDesiredColor();
+										Card dis = discardPile.drawFromTop();
+										dis.changeColor(color);
+										discardPile.addToTop(dis);
+										if (dis.getSymbol().equals(Card.Symbol.WILD)) {
+											packet.setDiscardActive(false);
+										}
+									}
 								}
 							}
 							packet.setDiscardPile(discardPile);
@@ -203,7 +212,6 @@ public class Client {
 							}
 							System.out.println("Player Card Count = " + player.getCardCount());
 							if (stats.setPlayersCardCount(player.getName(), player.getCardCount())) {
-								System.out.println("Set stats");
 								packet.setStats(stats);
 							}
 							out.reset();
@@ -224,10 +232,14 @@ public class Client {
 							packet.setMessage("success");
 							// stats.setPlayersCardCount(stats.getActivePlayer(), player.getCardCount());
 							// packet.setStats(stats);
+							out.reset();
 							out.writeObject(packet);
+							System.out.println("Player: " + player.getName());
+							System.out.println("Your cards:\n" + player.getHandString());
 							break;
 						default:
 							packet.setMessage("no_command");
+							out.reset();
 							out.writeObject(packet);
 							System.out.println("Unkown packet message");
 							break;
@@ -239,9 +251,6 @@ public class Client {
 					System.out.println("Packet recieved was not a packet");
 					e.printStackTrace();
 				}
-				// Runtime.getRuntime().exec("cls");
-				System.out.println("Player: " + player.getName());
-				System.out.println("Your cards:\n" + player.getHandString());
 			}
 		}
 		
