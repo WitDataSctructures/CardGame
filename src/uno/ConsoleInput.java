@@ -57,6 +57,7 @@ public class ConsoleInput implements InputManager {
 					cardColor = Color.WILD;
 					break;
 				default:
+					input = null;
 					cardColor = null;
 					System.out.println("Invalid card color. Try again.");
 					break;
@@ -109,13 +110,12 @@ public class ConsoleInput implements InputManager {
 					cardSymbol = Symbol.REVERSE;
 					break;
 				default:
-					if (input.contains("draw_two")) {
-						cardSymbol = Symbol.DRAW_TWO;
-					} else if (input.contains("draw_four")) {
+					if (input.contains("draw") && cardColor == Color.WILD) {
 						cardSymbol = Symbol.WILD_DRAW_FOUR;
-					} else if (cardColor == Color.WILD || input.contains("wild")) {
-						cardSymbol = Symbol.WILD;
+					} else if (input.contains("draw")) {
+						cardSymbol = Symbol.DRAW_TWO;
 					} else {
+						input = null;
 						cardSymbol = null;
 						System.out.println("Invalid card symbol. Try again.");
 					}
