@@ -153,6 +153,18 @@ public class Server {
 			stats = results.getStats();
 			// View message
 			boolean uno = false;
+
+			if (pickup.getSize() <= 5) {
+				Card temp = discard.drawFromTop();
+				for (int i = 0; i < 5; i++) {
+					discard.addToTop(pickup.drawFromTop());
+				}
+				discard.shuffle(10);
+				pickup = discard;
+				discard = new Deck();
+				discard.addToTop(temp);
+			}
+
 			switch (results.getMessage()) {
 				default:
 					System.out.println("Tell everyone that " + stats.getActivePlayer() + " says " + results.getMessage());
