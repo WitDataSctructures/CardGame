@@ -33,6 +33,11 @@ public class ConsoleInput implements InputManager {
 				} catch (ArrayIndexOutOfBoundsException e) {
 					System.out.println("Invalid Input");
 					input = null;
+					if (input.contains("wild")){
+						cardColor = Color.WILD;
+						cardSymbol = Symbol.WILD;
+						return new Card(cardColor, cardSymbol);
+					}
 				}
 			}
 			switch (color) {
