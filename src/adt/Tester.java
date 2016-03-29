@@ -1,8 +1,26 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * A tester for the Pile class.
+ * 
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package adt;
 
 import adt.Card.Color;
 import adt.Card.Symbol;
 
+
+/**
+ * Makes sure the Pile class and all of its methods are functioning as planned.
+ */
 public class Tester {
 
 	public static void main(String[] args) {

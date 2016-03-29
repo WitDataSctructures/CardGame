@@ -1,3 +1,18 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * Stores statistics for the players found within a card game such as their names,
+ * the number of cards in their hand and whose turn it is currently.
+ * 
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package uno;
 
 import java.io.Serializable;
@@ -52,6 +67,13 @@ public class PlayerStats implements Serializable {
 		return -1;
 	}
 	
+	/**
+	 * Inserts the player card count into an array of integers.
+	 * 
+	 * @param playerName
+	 * @param count
+	 * @return boolean, whether or not process was sucessful
+	 */
 	public boolean setPlayersCardCount(String playerName, int count) {
 		for (int i = 0; i < playerNames.length; i++) {
 			if (playerNames[i].equals(playerName)) {
@@ -72,6 +94,7 @@ public class PlayerStats implements Serializable {
 	}
 	
 	/**
+	 * Sets the names of the players within the game.
 	 * @param playerNames
 	 *            the playerNames to set
 	 */
@@ -79,7 +102,8 @@ public class PlayerStats implements Serializable {
 		this.playerNames = playerNames;
 	}
 	
-	/**
+	/** 
+	 * Sets the number of cards in a given player's hand.
 	 * @param cardCount
 	 *            the cardCount to set
 	 */
@@ -88,6 +112,8 @@ public class PlayerStats implements Serializable {
 	}
 	
 	/**
+	 * Keeps track of which player's turn it is currently.
+	 * 
 	 * @param activePlayer
 	 *            the activePlayer to set
 	 */

@@ -1,3 +1,17 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * 
+ * 
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package uno;
 
 import java.io.IOException;
@@ -115,7 +129,9 @@ public class Game {
 		}
 		return server;
 	}
-	
+	/**
+	 * Sets up a game of uno with everything which is required; a deck, players, discard pile, ect.
+	 */
 	public void setupGame() {
 		// Display current players
 		
@@ -153,6 +169,11 @@ public class Game {
 		discardPile.addToTop(pickupPile.drawFromTop());
 	}
 	
+	
+	//UNUSED METHODS UNUSED METHODS UNUSED METHODS
+	/**
+	 * Start of a new turn
+	 */
 	private void start() {
 		// While the game isn't finished, keep going around the table
 		boolean finished = false;

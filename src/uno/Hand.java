@@ -1,3 +1,18 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * A class for the hands of cards to be used in a game of uno. 
+ * Inherits from the Pile class.
+ * 
+ *  
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package uno;
 
 import java.util.ArrayList;
@@ -12,16 +27,26 @@ public class Hand extends Pile {
 	 */
 	private static final long serialVersionUID = 5690236836679402432L;
 	
-	// Default Constructor
+	/**
+	 * Default constructor for Hands.
+	 */
 	public Hand() {
 	}
 	
-	// Returns an integer of how many cards currently in the player's hand.
+	/**
+	 * Returns the integer for the number of cards in a player's hand.
+	 * @return int
+	 * 			number of cards in a hand
+	 */
 	public int getHandSize() {
 		return this.getSize();
 	}
 	
-	// Returns the playerHand.
+	/**
+	 * Returns an arraylist consisting of copies of the cards from the hand.
+	 * @return ArrayList<Card>
+	 * 			an arraylist copy of the cards within a hand.
+	 */
 	public ArrayList<Card> getHand() {
 		Card temp;
 		temp = this.peekFromTop();
@@ -33,7 +58,12 @@ public class Hand extends Pile {
 		return cardsInHand;
 	}
 	
-	// Checks if a Card parameter exists in the player's hand.
+	/**
+	 * Searches the hand and checks to see if the card provided is present in the hand.
+	 * @param cardToLookFor
+	 * @return boolean
+	 * 			whether or not the card parameterized is actually in the hand.
+	 */
 	public boolean isCardInHand(Card cardToLookFor) {
 		ArrayList<Card> playerHand = getHand();
 		for (int i = 0; i < playerHand.size(); i++) {
@@ -44,17 +74,32 @@ public class Hand extends Pile {
 		return false;
 	}
 	
-	// Add a Card parameter to the hand.
+	/**
+	 * Adds a card to the hand.
+	 * @param cardToBeAdded
+	 */
 	public void addToHand(Card cardToBeAdded) {
 		// System.out.println("Adding " + cardToBeAdded);
 		this.addToTop(cardToBeAdded);
 	}
 	
-	// If the Card exists in the hand, remove it, otherwise do nothing.
+	
+	/**
+	 * Removes a card from the hand only if it is in the hand
+	 * @param cardToBeRemoved
+	 * @return boolean
+	 * 			whether or not the removal was sucessful.
+	 */
 	public boolean removeFromHand(Card cardToBeRemoved) {
 		return !remove(cardToBeRemoved).equals(null);
 	}
 	
+	//COPY OF GETHANDSIZE
+	/**
+	 * Returns the integer for the number of cards in a player's hand.
+	 * @return int
+	 * 			number of cards in a hand
+	 */
 	public int getCardCount() {
 		return this.getSize();
 	}

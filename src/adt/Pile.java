@@ -1,9 +1,17 @@
-/**
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
  * Pile ADT to represent a pile of cards for the game of uno
  * 
- * @author Jake Mathews (mathewsj2@wit.edu)
- *
-*/
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 
 package adt;
 
@@ -16,6 +24,12 @@ public class Pile implements Serializable {
 	private static final long serialVersionUID = 717021340591068645L;
 	private Card top;
 	
+	/**
+	 * Takes a given card and places it on top of a pile.
+	 * 
+	 * @param card
+	 * 			card to be placed on top of a pile
+	 */
 	public void addToTop(Card card) {
 		if (top != null) {
 			card.setNext(top);
@@ -24,6 +38,12 @@ public class Pile implements Serializable {
 		top = card;
 	}
 	
+	/**
+	 * Takes the top card from the pile and returns it.
+	 * 
+	 * @return card
+	 * 			the card from the top of the pile.
+	 */
 	public Card drawFromTop() {
 		Card card = top;
 		if (top != null) {
@@ -35,6 +55,14 @@ public class Pile implements Serializable {
 		return card;
 	}
 	
+	/**
+	 * Attempts to remove a card from a pile.
+	 * 
+	 * @param card
+	 * 			the card to be removed
+	 * @return card
+	 * 			the card removed from the pile.
+	 */
 	public Card remove(Card card) {
 		Card current = top;
 		while (current != null) {
@@ -58,10 +86,22 @@ public class Pile implements Serializable {
 		return null;
 	}
 	
+	/**
+	 * Returns a copy of the top card from a pile of cards.
+	 * 
+	 * @return Card
+	 * 			A copy of the card on the top of the pile.
+	 */
 	public Card peekFromTop() {
 		return top;
 	}
 	
+	/**
+	 * Retrieves a card count for the number of cards in a given pile.
+	 * 
+	 * @return size
+	 * 			the number of cards in a given pile
+	 */
 	public int getSize() {
 		int size = 0;
 		Card current = top;
@@ -72,6 +112,12 @@ public class Pile implements Serializable {
 		return size;
 	}
 	
+	/**
+	 * Creates a string and populates it with each of the cards within the pile.
+	 * 
+	 * @return s
+	 * 			A string consisting of all of the cards within the pile.
+	 */
 	@Override
 	public String toString() {
 		String s = "";

@@ -1,3 +1,18 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * To be used in the Graphical User Interface, to terminate the window given
+ * certain conditions be met.
+ * 
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package uno_GUI;
 
 import java.awt.event.WindowAdapter;

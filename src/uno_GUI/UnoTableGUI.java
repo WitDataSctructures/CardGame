@@ -1,3 +1,17 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * A GUI to be used to help implement the application into a more user friendly format.
+ * 
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package uno_GUI;
 
 import java.awt.Color;
@@ -53,6 +67,10 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener 
 	
 	boolean unoCalled = false;
 	
+	/**
+	 * A Constructor for the window which the gui will be placed in, with all of the 
+	 * required buttons and lists placed where they need to be.
+	 */
 	public UnoTableGUI() {
 		
 		super("Lab 04 - UNO Card Game");
@@ -98,7 +116,13 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener 
 		unoGame.add(emptyLabel);
 		
 	}
-	
+	/**
+	 * Does a required task whenever a button on the GUI is pressed by the user.
+	 * These buttons include drawing a card, calling uno, and selecting a card to play.
+	 * 
+	 * @param event
+	 * 		A specific event which needs to be triggered.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
@@ -134,17 +158,33 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener 
 		
 	}
 	
+	/**
+	 * Returns the card on the top of the discard pile.
+	 * @return Card
+	 * 			top card of the discard pile
+	 */
 	@Override
 	public Card getCard() {
 		return discardPile.peekFromTop();
 	}
 	
+	/**
+	 * Placeholder for if a player calls uno
+	 * 
+	 * @return String
+	 * 			always an empty String
+	 */
 	@Override
 	public String getUno() {
 		return "";
 	}
 	
-	// Returns string which user types into the IP textbox
+	/**
+	 * Provides a textbox for the user to insert an IP address into.
+	 * 
+	 * @return String
+	 * 			IP address that the user entered.
+	 */
 	@Override
 	public String getHostIP() {
 		String input = null;
@@ -160,17 +200,32 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener 
 		return null;
 	}
 	
+	/**
+	 * Placeholder for the interface for determining if the correct server is chosen.
+	 * 
+	 * @return boolean
+	 * 			always false
+	 */
 	@Override
 	public boolean isServer() {
 		return false;
 	}
 	
+	/**
+	 * Placehold for the interface for server work.
+	 * @return boolean
+	 * 			always false
+	 */
 	@Override
 	public boolean getTrueFalse() {
 		return false;
 	}
 	
-	// Return Color for what the user wants their wild card to change the color to.
+	/**
+	 * Return Color for what the user wants their wild card to change the color to.
+	 * @return Color
+	 * 			desired switch color
+	 */
 	@Override
 	public adt.Card.Color getDesiredColor() {
 		Object[] options = { "Red", "Yellow", "Green", "Blue" };
@@ -190,7 +245,12 @@ public class UnoTableGUI extends JFrame implements InputManager, ActionListener 
 		}
 	}
 	
-	// Start of a new turn
+	/**
+	 * Provides the client with the updated information from the GUI at the start of a new turn.
+	 * 
+	 * @param client
+	 * 			client to carry the game information to the server
+	 */
 	public void setClient(Client client) {
 		unoCalled = false;
 		this.client = client;

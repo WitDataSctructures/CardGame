@@ -1,3 +1,17 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * A class for cards found in an uno game, both a card's color and symbol are taken into accountability.
+ * 
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package adt;
 
 import java.io.Serializable;
@@ -155,7 +169,10 @@ public class Card implements Serializable, Comparable<Card> {
 			return 1;
 		}
 	}
-	
+	/**
+	 * @param color
+	 * Changes the card color to the color which was given by the parameter.
+	 */
 	public void changeColor(Color color) {
 		this.cardColor = color;
 	}

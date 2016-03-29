@@ -1,3 +1,17 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * An interface for the InputManager with methods which
+ * will be used throughout the program.
+ * 
+ * @author jakem
+ * @author piolaf
+ * @author darrienk
+ */
+
 package uno;
 
 import adt.Card;
