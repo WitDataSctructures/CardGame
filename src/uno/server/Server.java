@@ -1,3 +1,16 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * The server is an entry point for anyone who wants to run a server instance
+ * 
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
+ */
+
 package uno.server;
 
 import java.io.IOException;

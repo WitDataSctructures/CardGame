@@ -1,3 +1,17 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * Holds the input and output streams for each player
+ * Has a sendPacket() method for easy communication
+ * 
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
+ */
+
 package uno.server;
 
 import java.io.IOException;
@@ -6,14 +20,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientThread {
-	
+
 	Socket client;
 	Server server;
 	boolean playersTurn = false;
-	
+
 	ObjectOutputStream out;
 	ObjectInputStream in;
-	
+
 	/**
 	 * Middle man between each client and server
 	 * 
@@ -38,7 +52,7 @@ public class ClientThread {
 		}
 		out.writeObject(input);
 	}
-	
+
 	public ClientPacket sendPacket(ClientPacket packet) {
 		try {
 			out.reset();

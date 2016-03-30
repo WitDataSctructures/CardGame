@@ -1,3 +1,16 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * Acts as a input validator for any console input provided by the user
+ * 
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
+ */
+
 package uno;
 
 import java.util.Scanner;
@@ -7,13 +20,13 @@ import adt.Card.Color;
 import adt.Card.Symbol;
 
 public class ConsoleInput implements InputManager {
-	
+
 	private Scanner console;
-	
+
 	public ConsoleInput() {
 		console = new Scanner(System.in);
 	}
-	
+
 	/**
 	 * Get the card the user wants to place on the discard pile
 	 * 
@@ -33,7 +46,7 @@ public class ConsoleInput implements InputManager {
 				} catch (ArrayIndexOutOfBoundsException e) {
 					System.out.println("Invalid Input");
 					input = null;
-					if (input.contains("wild")){
+					if (input.contains("wild")) {
 						cardColor = Color.WILD;
 						cardSymbol = Symbol.WILD;
 						return new Card(cardColor, cardSymbol);
@@ -119,7 +132,7 @@ public class ConsoleInput implements InputManager {
 						cardSymbol = Symbol.WILD_DRAW_FOUR;
 					} else if (input.contains("draw")) {
 						cardSymbol = Symbol.DRAW_TWO;
-					} else if (input.contains("wild") || input.contains("w")){
+					} else if (input.contains("wild") || input.contains("w")) {
 						cardSymbol = Symbol.WILD;
 					} else {
 						input = null;
@@ -131,7 +144,7 @@ public class ConsoleInput implements InputManager {
 		}
 		return new Card(cardColor, cardSymbol);
 	}
-	
+
 	/**
 	 * Get whether the user typed uno
 	 * 
@@ -144,9 +157,9 @@ public class ConsoleInput implements InputManager {
 			return "uno";
 		}
 		return in;
-		
+
 	}
-	
+
 	/**
 	 * Get the IP of the server the user wants to connect to
 	 * 
@@ -166,7 +179,7 @@ public class ConsoleInput implements InputManager {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * returns whether the user wants to be the server
 	 * 
@@ -188,7 +201,7 @@ public class ConsoleInput implements InputManager {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return true or false
 	 */
@@ -208,7 +221,7 @@ public class ConsoleInput implements InputManager {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public Color getDesiredColor() {
 		String input = null;
@@ -234,8 +247,8 @@ public class ConsoleInput implements InputManager {
 					break;
 			}
 		}
-		
+
 		return cardColor;
 	}
-	
+
 }

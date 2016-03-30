@@ -7,16 +7,15 @@
  * A tester for the Pile class.
  * 
  * 
- * @author jakem
- * @author piolaf
- * @author darrienk
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
  */
 
 package adt;
 
 import adt.Card.Color;
 import adt.Card.Symbol;
-
 
 /**
  * Makes sure the Pile class and all of its methods are functioning as planned.

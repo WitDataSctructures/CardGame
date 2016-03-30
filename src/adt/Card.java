@@ -7,9 +7,19 @@
  * A class for cards found in an uno game, both a card's color and symbol are taken into accountability.
  * 
  * 
- * @author jakem
- * @author piolaf
- * @author darrienk
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
+ */
+
+/**
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ *
+ * A class for the deck of cards used within a card game.
+ * 
  */
 
 package adt;
@@ -21,52 +31,52 @@ public class Card implements Serializable, Comparable<Card> {
 	 * generated UID
 	 */
 	private static final long serialVersionUID = -9003507646233425521L;
-	
+
 	/**
 	 * Enum for Color of an UNO card with values for comparison
 	 * 
 	 * @author poliaf
-	 * 		
+	 * 
 	 */
 	public static enum Color {
 		RED(0), YELLOW(1), GREEN(2), BLUE(3), WILD(4);
-		
+
 		private final int comparisonValue;
-		
+
 		private Color(int val) {
 			comparisonValue = val;
 		}
-		
+
 		public int getComparisonValue() {
 			return comparisonValue;
 		}
 	};
-	
+
 	/**
 	 * Enum for the symbol on an UNO card with values for comparison
 	 * 
 	 * @author poliaf
-	 * 		
+	 * 
 	 */
 	public static enum Symbol {
 		ZERO(0), ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), NINE(9), SKIP(10), REVERSE(11), DRAW_TWO(12), WILD(13), WILD_DRAW_FOUR(14);
-		
+
 		private final int comparisonValue;
-		
+
 		private Symbol(int val) {
 			comparisonValue = val;
 		}
-		
+
 		public int getComparisonValue() {
 			return comparisonValue;
 		}
 	};
-	
+
 	private Color cardColor;
 	private Symbol cardSymbol;
 	private Card previous;
 	private Card next;
-	
+
 	/**
 	 * 
 	 * @param Color
@@ -78,49 +88,49 @@ public class Card implements Serializable, Comparable<Card> {
 		cardColor = c;
 		cardSymbol = s;
 	}
-	
+
 	/**
 	 * @return Color of the card
 	 */
 	public Color getColor() {
 		return cardColor;
 	}
-	
+
 	/**
 	 * @return Symbol of the card
 	 */
 	public Symbol getSymbol() {
 		return cardSymbol;
 	}
-	
+
 	/**
 	 * @param previousCard
 	 */
 	public void setPrevious(Card previousCard) {
 		previous = previousCard;
 	}
-	
+
 	/**
 	 * @param nextCard
 	 */
 	public void setNext(Card nextCard) {
 		next = nextCard;
 	}
-	
+
 	/**
 	 * @return previous card
 	 */
 	public Card getPrevious() {
 		return previous;
 	}
-	
+
 	/**
 	 * @return next card
 	 */
 	public Card getNext() {
 		return next;
 	}
-	
+
 	/**
 	 * @param otherCard
 	 * @return true if cards have the same color or one is a WILD color, false otherwise
@@ -132,7 +142,7 @@ public class Card implements Serializable, Comparable<Card> {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * @param otherCard
 	 * @return true if cards have the same symbol, false otherwise
@@ -140,7 +150,7 @@ public class Card implements Serializable, Comparable<Card> {
 	public boolean isSymbolSame(Card otherCard) {
 		return cardSymbol.equals(otherCard.getSymbol());
 	}
-	
+
 	/**
 	 * Returns a string stating the color and symbol on the card
 	 */
@@ -151,10 +161,9 @@ public class Card implements Serializable, Comparable<Card> {
 		}
 		return (cardColor + " " + cardSymbol).toLowerCase();
 	}
-	
+
 	/**
-	 * Compares the card to another card returns 0 if the cards are the same returns -1 if the first card has a lower symbol than the second returns 1 otherwise If the symbols are the same, but the
-	 * colors are not, either -1 or 1 is returned RED, YELLOW, GREEN, BLUE, WILD
+	 * Compares the card to another card returns 0 if the cards are the same returns -1 if the first card has a lower symbol than the second returns 1 otherwise If the symbols are the same, but the colors are not, either -1 or 1 is returned RED, YELLOW, GREEN, BLUE, WILD
 	 */
 	@Override
 	public int compareTo(Card otherCard) {
@@ -169,9 +178,10 @@ public class Card implements Serializable, Comparable<Card> {
 			return 1;
 		}
 	}
+
 	/**
 	 * @param color
-	 * Changes the card color to the color which was given by the parameter.
+	 *            Changes the card color to the color which was given by the parameter.
 	 */
 	public void changeColor(Color color) {
 		this.cardColor = color;

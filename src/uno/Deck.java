@@ -1,15 +1,14 @@
-/****************************
+/**
  * Comp 2071
  * Lab 04 - Lists
  * Due: March 17th, 2016
  * Group #: 12
- * 
+ *
  * A class for the deck of cards used within a card game.
  * 
- * 
- * @author jakem
- * @author piolaf
- * @author darrienk
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
  */
 
 package uno;
@@ -23,17 +22,16 @@ import adt.Card.Symbol;
 import adt.Pile;
 
 public class Deck extends Pile implements Serializable {
-	
+
 	/**
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -7864976685987399548L;
-	
+
 	/**
-	 * Generate all of the cards to be found within a deck of uno cards and return
-	 * this deck.
-	 * @return Deck
-	 * 			a deck consisting of all legal uno cards.
+	 * Generate all of the cards to be found within a deck of uno cards and return this deck.
+	 * 
+	 * @return Deck a deck consisting of all legal uno cards.
 	 */
 	public static Deck generateCards() {
 		Deck pile = new Deck();
@@ -54,11 +52,12 @@ public class Deck extends Pile implements Serializable {
 		}
 		return pile;
 	}
-	
+
 	/**
 	 * Removes cards from the top of the deck and places them in a random spot in the deck.
+	 * 
 	 * @param numberOfShuffles
-	 * 			the number of times for the deck to be shuffled.
+	 *            the number of times for the deck to be shuffled.
 	 */
 	public void shuffle(int numberOfShuffles) {
 		Random random = new Random();
@@ -73,6 +72,6 @@ public class Deck extends Pile implements Serializable {
 			placeAfter.setNext(currentCard);
 			currentCard.setNext(placeBefore);
 		}
-		
+
 	}
 }

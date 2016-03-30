@@ -1,3 +1,16 @@
+/****************************
+ * Comp 2071
+ * Lab 04 - Lists
+ * Due: March 17th, 2016
+ * Group #: 12
+ * 
+ * The client is a program entry point for anyone who wants to connect to a server to play
+ * 
+ * @author Jake Mathews
+ * @author Ford Polia
+ * @author Darrien Kennedy
+ */
+
 package uno.client;
 
 import java.io.IOException;
