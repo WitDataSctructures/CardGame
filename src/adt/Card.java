@@ -12,16 +12,6 @@
  * @author Darrien Kennedy
  */
 
-/**
- * Comp 2071
- * Lab 04 - Lists
- * Due: March 17th, 2016
- * Group #: 12
- *
- * A class for the deck of cards used within a card game.
- * 
- */
-
 package adt;
 
 import java.io.Serializable;
